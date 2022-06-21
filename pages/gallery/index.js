@@ -1,7 +1,6 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import Products from "../../components/gallery/Product";
 import Loading from "../../components/UI/Loading";
-import CategoryHelper from "./../../lib/ProductHelper";
 import SidebarMenu from "../../components/gallery/SidebarMenu";
 import Seo from "../../components/utils/Seo";
 
@@ -13,33 +12,43 @@ const Gallery = ({ dataProducts }) => {
   const [categoryProduct, setCategoryProduct] = useState("");
 
   const fetchProductHandler = useCallback(
-    (category) => {
-      setProducts(CategoryHelper.getProductByCategory(dataProducts, category));
+    async (category) => {
+      setIsLoading(true);
+      const res = await fetch(
+        `https://ozchic-store-api.herokuapp.com/api/v1/product/category/${category}`
+      );
+      const result = await res.json();
+      setProducts(result.data);
+
+      if (category === "") {
+        setProducts(dataProducts);
+      }
+
       setIsLoading(false);
     },
     [dataProducts]
   );
 
-  const searchChangeHandler = (e) => {
+  const searchChangeHandler = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const search = e.target.value;
+    const res = await fetch(
+      `https://ozchic-store-api.herokuapp.com/api/v1/product?title=${search}`
+    );
+    const result = await res.json();
     if (search === "") {
       setProducts(dataProducts);
     }
-
-    setProducts(CategoryHelper.searchProductByTitle(dataProducts, search));
+    setProducts(result.data);
+    setIsLoading(false);
   };
-
-  useEffect(() => {
-    if (isLoading) {
-      setProducts([]);
-    }
-  }, [isLoading]);
 
   useEffect(() => {
     fetchProductHandler(categoryProduct);
   }, [fetchProductHandler, categoryProduct]);
 
+  console.log({ products, categoryProduct });
   return (
     <Fragment>
       <Seo
@@ -78,7 +87,7 @@ const Gallery = ({ dataProducts }) => {
               !sidebarToggle ? "mt-8" : ""
             }`}
           >
-            {products?.map((item) => (
+            {products.map((item) => (
               <Products item={item} key={item.id} />
             ))}
           </div>
