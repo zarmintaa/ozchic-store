@@ -2,6 +2,8 @@ import Image from "next/image";
 import ProductRating from "../product/ProductRating";
 import { useRouter } from "next/router";
 
+const base_api = "https://ozchic-store-api.herokuapp.com/";
+
 const ProductDetail = ({ product, addFavProductHandler, classFav }) => {
   const router = useRouter();
   return (
@@ -9,7 +11,7 @@ const ProductDetail = ({ product, addFavProductHandler, classFav }) => {
       <Image
         alt={product.name}
         className=" w-full object-cover object-center rounded border border-gray-200"
-        src={"/" + product.image}
+        src={base_api + product.image}
         width={400}
         height={600}
         layout="intrinsic"
