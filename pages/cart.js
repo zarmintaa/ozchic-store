@@ -1,10 +1,11 @@
 import {
   getProductFromLocalStorage,
-  setProductToLocalStorage,
   updateCountProduct,
 } from "../lib/cart-product";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import OrderForm from "../components/cart/OrderForm";
 import ListCartOrder from "../components/cart/ListCartOrder";
 import Order from "../components/cart/Order";
@@ -31,7 +32,7 @@ const Cart = () => {
     cartProduct.map((product) => {
       totalItem += product.count;
       totalPrice += product.count * +product.price;
-      nameOrderTitle += `[${product.name}] `;
+      nameOrderTitle += `[${product.name} : ${product.count} pcs] `;
     });
     setTotalItems(totalItem);
     setTotalPrice(totalPrice);
@@ -55,31 +56,42 @@ const Cart = () => {
 
   const submitFormHandler = (e) => {
     e.preventDefault();
-    const name = nameOrder;
+
+    if (products.length === 0) {
+      toast.error("Maaf keranjang kosong!, tidak dapat melakukan pemesanan.", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+
+    const name = nameOrder
+      .replace(/\s/g, "%20")
+      .replace(/\[/g, "%5B")
+      .replace(/\]/g, "%5D");
     const orderBy = nameInput.current.value;
     const address = addressInput.current.value;
     const phone = phoneInput.current.value;
     const count = totalItems;
-    const data = { name, orderBy, price, address, phone, count };
 
-    fetch("http://localhost:8000/api/orders/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.message === "success") {
-          setProductToLocalStorage([]);
-          updateHandler();
-          alert("Success");
-        } else {
-          alert("Failed");
-        }
-        router.push("/gallery");
-      });
+    const startText =
+      "Saya%20ingin%20order%20pesanan%20di%20ozchic%20store%2C%20dengan%20pesanan%20berikut%20%3A%0A%0A";
+    const costomer = `Nama%20:%20${orderBy}`;
+    const orders = `Nama%20Barang%20%3A%20${name}`;
+    const addressText = `Alamat%20%3A%20${address}`;
+    const phoneText = `No.%20HP%20%3A%20${phone}`;
+    const countText = `Jumlah%20%3A%20${count}`;
+    const totalText = `Total%20%3A%20Rp.${price}`;
+    const finalText = `${startText}${costomer}%0A${orders}%0A${addressText}%0A${phoneText}%0A${countText}%0A${totalText}`;
+
+    router.push(
+      `https://api.whatsapp.com/send/?phone=+6289669678577&text=${finalText}`
+    );
   };
 
   return (
@@ -108,6 +120,17 @@ const Cart = () => {
           />
         )}
       </section>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Fragment>
   );
 };

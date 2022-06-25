@@ -13,8 +13,10 @@ const ItemCartOrder = ({ product, updateProduct }) => {
           src={base_api + product.image}
           className="object-cover w-full h-full"
           width={500}
-          height={700}
+          height={750}
           layout={"responsive"}
+          objectFit="cover"
+          objectPosition="center"
           alt={product.name}
         />
       </div>
