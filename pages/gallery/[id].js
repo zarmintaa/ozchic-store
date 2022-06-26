@@ -116,7 +116,6 @@ export async function getStaticProps(context) {
     "https://ozchic-store-api.herokuapp.com/api/v1/product/" + id
   );
   const data = await response.json();
-  // const dataProduct = data.data.find((product) => product.id === +id);
   const dataProduct = data.data;
 
   return {

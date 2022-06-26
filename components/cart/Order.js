@@ -1,6 +1,6 @@
 const Order = ({ totalItems, setOrderToggle, orderToggle, price }) => {
   return (
-    <div className="shadow-lg p-5 h-fit">
+    <div className="shadow-lg p-5 h-fit mx-5 lg:mx-0">
       <div className="border-b-2 text-center text-xl font-semibold border-gray-600 pb-2">
         <h1 className="font-semibold text-2xl">Detail</h1>
       </div>

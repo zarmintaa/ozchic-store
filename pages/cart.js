@@ -59,7 +59,7 @@ const Cart = () => {
 
     if (products.length === 0) {
       toast.error("Maaf keranjang kosong!, tidak dapat melakukan pemesanan.", {
-        position: "bottom-right",
+        position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -121,7 +121,7 @@ const Cart = () => {
         )}
       </section>
       <ToastContainer
-        position="bottom-right"
+        position="top-right"
         autoClose={1000}
         hideProgressBar={false}
         newestOnTop={false}

@@ -18,13 +18,15 @@ const Gallery = ({ dataProducts }) => {
         `https://ozchic-store-api.herokuapp.com/api/v1/product/category/${category}`
       );
       const result = await res.json();
+      if (res.ok){
+        setIsLoading(false);
+      }
       setProducts(result.data);
 
       if (category === "") {
         setProducts(dataProducts);
       }
 
-      setIsLoading(false);
     },
     [dataProducts]
   );
@@ -37,18 +39,21 @@ const Gallery = ({ dataProducts }) => {
       `https://ozchic-store-api.herokuapp.com/api/v1/product?title=${search}`
     );
     const result = await res.json();
+
+    if (res.ok){
+      setIsLoading(false);
+    }
     if (search === "") {
       setProducts(dataProducts);
     }
     setProducts(result.data);
-    setIsLoading(false);
+
   };
 
   useEffect(() => {
     fetchProductHandler(categoryProduct);
   }, [fetchProductHandler, categoryProduct]);
 
-  console.log({ products, categoryProduct });
   return (
     <Fragment>
       <Seo

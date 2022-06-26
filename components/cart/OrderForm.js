@@ -5,7 +5,7 @@ const OrderForm = ({
   phoneInput,
 }) => {
   return (
-    <div className="shadow-lg py-2.5 px-2.5 mt-10">
+    <div className="shadow-lg py-2.5 px-2.5 mt-10 mx-5 lg:mx-0">
       <div className="text-center">
         <h1 className="text-3xl font-semibold">Form Pemesanan</h1>
       </div>
