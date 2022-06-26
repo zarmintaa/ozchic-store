@@ -74,27 +74,29 @@ const DetailProduct = ({ dataProduct }) => {
     }
   }, [product, product.id, isFavProduct]);
 
-  console.log(product.description);
-
   return (
     <Fragment>
-      <Seo
-        description={product.description}
-        url={`https://ozchic-store.vercel.app/gallery/${product.id}`}
-        title={`Ozchic Store | ${product.name}`}
-      />
-      <section className="text-gray-700 body-font overflow-hidden bg-white">
-        <div className="container px-5 py-5 mx-auto">
-          {isLoading && <Loading />}
-          {!isLoading && (
-            <ProductDetail
-              product={product}
-              addFavProductHandler={addFavProductHandler}
-              classFav={classFav}
-            />
-          )}
+      {product && (
+        <div>
+          <Seo
+            description={product.description}
+            url={`https://ozchic-store.vercel.app/gallery/${product.id}`}
+            title={`Ozchic Store | ${product.name}`}
+          />
+          <section className="text-gray-700 body-font overflow-hidden bg-white">
+            <div className="container px-5 py-5 mx-auto">
+              {isLoading && <Loading />}
+              {!isLoading && (
+                <ProductDetail
+                  product={product}
+                  addFavProductHandler={addFavProductHandler}
+                  classFav={classFav}
+                />
+              )}
+            </div>
+          </section>
         </div>
-      </section>
+      )}
       <ToastContainer
         position="top-right"
         autoClose={1000}
