@@ -79,7 +79,7 @@ const DetailProduct = ({ dataProduct }) => {
       {product && (
         <div>
           <Seo
-            description={product.description}
+            description={"Come to my store for great apparel!"}
             url={`https://ozchic-store.vercel.app/gallery/${product.id}`}
             title={`Ozchic Store | ${product.name}`}
           />
