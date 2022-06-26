@@ -94,6 +94,8 @@ const Cart = () => {
     );
   };
 
+  console.log(products);
+
   return (
     <Fragment>
       <Seo

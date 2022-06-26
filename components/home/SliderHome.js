@@ -1,6 +1,8 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const SliderHome = () => {
+  const router = useRouter();
   return (
     <section className="h-auto w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-slider-top">
@@ -28,7 +30,10 @@ const SliderHome = () => {
             </p>
           </div>
           <div className="mt-12 font-f-poppins">
-            <button className="py-2 px-16 bg-white text-black font-semibold text-lg rounded-bl-lg rounded-tr-lg">
+            <button
+              onClick={() => router.push("/cart")}
+              className="py-2 px-16 bg-white text-black font-semibold text-lg rounded-bl-lg rounded-tr-lg"
+            >
               Order Now
             </button>
           </div>

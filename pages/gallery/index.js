@@ -18,7 +18,7 @@ const Gallery = ({ dataProducts }) => {
         `https://ozchic-store-api.herokuapp.com/api/v1/product/category/${category}`
       );
       const result = await res.json();
-      if (res.ok){
+      if (res.ok) {
         setIsLoading(false);
       }
       setProducts(result.data);
@@ -26,7 +26,6 @@ const Gallery = ({ dataProducts }) => {
       if (category === "") {
         setProducts(dataProducts);
       }
-
     },
     [dataProducts]
   );
@@ -40,14 +39,13 @@ const Gallery = ({ dataProducts }) => {
     );
     const result = await res.json();
 
-    if (res.ok){
+    if (res.ok) {
       setIsLoading(false);
     }
     if (search === "") {
       setProducts(dataProducts);
     }
     setProducts(result.data);
-
   };
 
   useEffect(() => {
@@ -58,7 +56,7 @@ const Gallery = ({ dataProducts }) => {
     <Fragment>
       <Seo
         description={"Come to my store for great apparel!"}
-        url={"https://ozchic-next.vercel.app/"}
+        url={"https://ozchic-store.vercel.app/"}
         title={"Ozchic Store | Gallery"}
       />
       <div className="flex">

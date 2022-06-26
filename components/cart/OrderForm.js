@@ -6,7 +6,7 @@ const OrderForm = ({
 }) => {
   return (
     <div className="shadow-lg py-2.5 px-2.5 mt-10 mx-5 lg:mx-0">
-      <div className="text-center">
+      <div className="text-center py-10">
         <h1 className="text-3xl font-semibold">Form Pemesanan</h1>
       </div>
       <form id="form" onSubmit={submitFormHandler}>
@@ -15,7 +15,6 @@ const OrderForm = ({
             type="text"
             name="name"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder="Your name..."
             ref={nameInput}
             required
           />
@@ -32,7 +31,6 @@ const OrderForm = ({
             name="address"
             id="address"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder="Jakarta..."
             ref={addressInput}
             required
           />
@@ -49,7 +47,6 @@ const OrderForm = ({
             name="floating_phone"
             id="floating_phone"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder="+62.."
             ref={phoneInput}
             required
           />

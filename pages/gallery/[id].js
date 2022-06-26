@@ -74,11 +74,13 @@ const DetailProduct = ({ dataProduct }) => {
     }
   }, [product, product.id, isFavProduct]);
 
+  console.log(product.description);
+
   return (
     <Fragment>
       <Seo
         description={product.description}
-        url={`https://ozchic-next.vercel.app/gallery/${product.id}`}
+        url={`https://ozchic-store.vercel.app/gallery/${product.id}`}
         title={`Ozchic Store | ${product.name}`}
       />
       <section className="text-gray-700 body-font overflow-hidden bg-white">
@@ -92,18 +94,18 @@ const DetailProduct = ({ dataProduct }) => {
             />
           )}
         </div>
-        <ToastContainer
-          position="top-right"
-          autoClose={1000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
       </section>
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Fragment>
   );
 };

@@ -1,6 +1,9 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const LookbookHome = () => {
+  const router = useRouter();
+
   return (
     <section className="my-20">
       <div className="flex items-center justify-center my-20 ">
@@ -31,7 +34,10 @@ const LookbookHome = () => {
                 </h1>
               </div>
               <div className="lookbook__content--button font-f-poppins">
-                <button className="py-4 px-16 tracking-wider bg-black rounded-bl-lg rounded-tr-lg text-lg lg:text-xl">
+                <button
+                  onClick={() => router.push("/lookbook")}
+                  className="py-4 px-16 tracking-wider bg-black rounded-bl-lg rounded-tr-lg text-lg lg:text-xl"
+                >
                   GET THE LOOK
                 </button>
               </div>
@@ -58,7 +64,10 @@ const LookbookHome = () => {
                 </h1>
               </div>
               <div className=" font-f-poppins">
-                <button className="py-4 px-16 tracking-wider bg-black rounded-bl-lg rounded-tr-lg text-lg lg:text-xl">
+                <button
+                  onClick={() => router.push("/lookbook")}
+                  className="py-4 px-16 tracking-wider bg-black rounded-bl-lg rounded-tr-lg text-lg lg:text-xl"
+                >
                   GET THE LOOK
                 </button>
               </div>
