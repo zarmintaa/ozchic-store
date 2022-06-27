@@ -42,5 +42,5 @@ export default NextAuth({
     signIn: "/api/auth/signin",
     signOut: "/api/auth/signout",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXT_PUBLIC_SECRET,
 });

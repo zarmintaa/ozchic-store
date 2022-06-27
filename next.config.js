@@ -7,6 +7,7 @@ const nextConfig = {
   },
   env: {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    NEXT_PUBLIC_SECRET: process.env.NEXT_PUBLIC_SECRET,
   },
 };
 module.exports = nextConfig;
