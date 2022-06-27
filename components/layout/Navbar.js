@@ -6,10 +6,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
-import { faBars, faX, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faX,
+  faShoppingCart,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import { signOut, useSession } from "next-auth/react";
+import SignOutButton from "../auth/SignOutButton";
+import SignInButton from "../auth/SignInButton";
+import { ToastContainer } from "react-toastify";
 
 const Navbar = () => {
   const [sidebarToggle, setSidebarToggle] = useState(false);
+
+  const [userToggle, setUserToggle] = useState(false);
+  const session = useSession();
+  console.log(session.data);
 
   return (
     <div className="border-b border-solid">
@@ -56,7 +69,7 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="flex gap-2">
-            <div className="flex justify-end gap-x-4">
+            <div className="flex justify-end items-center gap-x-5">
               <Link href="/cart" passHref>
                 <div className="relative">
                   <button type="button" aria-label="Toggle Button" className="">
@@ -64,14 +77,47 @@ const Navbar = () => {
                       icon={faShoppingCart}
                       className="text-2xl"
                     />
-                    <i className="fa-solid fa-cart-shopping text-2xl"></i>
                   </button>
                 </div>
               </Link>
+              <div
+                onClick={() => setUserToggle(!userToggle)}
+                className="cursor-pointer relative rounded-xl w-10 h-10 flex items-center justify-center border border-b hover:shadow-lg"
+              >
+                <button type="button">
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    className="text-2xl text-gray-500"
+                  />
+                </button>
+                {userToggle && (
+                  <div
+                    className="absolute top-10 right-0 z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow "
+                    id="dropdown"
+                  >
+                    {session.data && (
+                      <div className="py-3 px-4">
+                        <span className="block text-sm text-gray-900 ">
+                          {session.data.user.name}
+                        </span>
+                        <span className="block text-sm font-medium text-gray-500 truncate ">
+                          {session.data.user.email}
+                        </span>
+                      </div>
+                    )}
+                    <ul className="py-1">
+                      <li>
+                        {session.data ? <SignOutButton /> : <SignInButton />}
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </nav>
       </header>
+
       {!sidebarToggle && (
         <header className="lg:hidden gap-10 py-6 w-full px-6 mx-auto items-center">
           <div className="flex justify-between items-center gap-10">
@@ -185,6 +231,17 @@ const Navbar = () => {
           </div>
         </header>
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

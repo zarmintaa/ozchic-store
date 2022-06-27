@@ -10,6 +10,8 @@ import OrderForm from "../components/cart/OrderForm";
 import ListCartOrder from "../components/cart/ListCartOrder";
 import Order from "../components/cart/Order";
 import Seo from "../components/utils/Seo";
+import { getSession } from "next-auth/react";
+import Loading from "../components/UI/Loading";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -17,6 +19,7 @@ const Cart = () => {
   const [price, setTotalPrice] = useState(0);
   const [orderToggle, setOrderToggle] = useState(false);
   const [nameOrder, setNameOrder] = useState("");
+  const [loading, setLoading] = useState(true);
 
   // input form
   const nameInput = useRef();
@@ -96,11 +99,34 @@ const Cart = () => {
 
   console.log(products);
 
+  useEffect(() => {
+    getSession().then((session) => {
+      if (session) {
+        setLoading(false);
+      }
+    });
+  }, [router]);
+
+  if (loading) {
+    return (
+      <div className="w-full md:w-7/12 lg:6/12 rounded p-10 grid justify-center mx-auto font-semibold gap-5 shadow my-10">
+        <h1 className="text-xl">Anda harus login terlebih dahulu</h1>
+        <button
+          onClick={() => router.push("/login")}
+          type="button"
+          className="px-5 py-1.5 bg-teal-500 text-white rounded"
+        >
+          Login
+        </button>
+      </div>
+    );
+  }
+
   return (
     <Fragment>
       <Seo
         description={"Sesuaikan produk kamu dari kami untuk kamu beli"}
-        url={"https://ozchic-store.vercel.app/cart/"}
+        url={"https://ozchic-store.vercel.app/cart"}
         title={"Ozchic Store | Cart"}
       />
       <section className="w-full lg:w-9/12 mx-auto grid lg:grid-cols-[2fr,_1fr] gap-5  my-10">
