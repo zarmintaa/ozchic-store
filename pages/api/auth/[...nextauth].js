@@ -10,11 +10,6 @@ export default NextAuth({
   },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "email", required: true },
-        password: { label: "Password", type: "password", required: true },
-      },
       async authorize(credentials) {
         await connectToDatabase();
 
@@ -43,5 +38,20 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    jwt: async (token, user) => {
+      user && (user.token = token);
+      return user;
+    },
+    session: async ({ session, user }) => {
+      session.user = user;
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/api/auth/signin",
+    signOut: "/api/auth/signout",
+    signUp: "/api/auth/signup",
+  },
   secret: process.env.NEXT_PUBLIC_SECRET,
 });
