@@ -6,10 +6,15 @@ import User from "../../../models/User";
 
 export default NextAuth({
   session: {
-    jwt: true,
+    strategy: "jwt",
   },
   providers: [
     CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email", required: true },
+        password: { label: "Password", type: "password", required: true },
+      },
       async authorize(credentials) {
         await connectToDatabase();
 
@@ -38,9 +43,5 @@ export default NextAuth({
       },
     }),
   ],
-  pages: {
-    signIn: "/signin",
-    signOut: "/signout",
-  },
   secret: process.env.NEXT_PUBLIC_SECRET,
 });
