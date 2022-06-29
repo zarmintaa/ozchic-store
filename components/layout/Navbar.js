@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import ActiveLink from "./ActiveLink";
 
@@ -12,17 +12,29 @@ import {
   faShoppingCart,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { signOut, useSession } from "next-auth/react";
 import SignOutButton from "../auth/SignOutButton";
 import SignInButton from "../auth/SignInButton";
 import { ToastContainer } from "react-toastify";
+import { getAuthFromLocalStorage } from "../../lib/AuthHelper";
 
 const Navbar = () => {
   const [sidebarToggle, setSidebarToggle] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [auth, setAuth] = useState(null);
 
   const [userToggle, setUserToggle] = useState(false);
-  const session = useSession();
-  console.log(session.data);
+
+  useEffect(() => {
+    const auth = getAuthFromLocalStorage();
+    const token = auth?.data?.token;
+
+    if (token) {
+      setIsLoggedIn(true);
+      setAuth(auth);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   return (
     <div className="border-b border-solid">
@@ -95,19 +107,23 @@ const Navbar = () => {
                     className="absolute top-10 right-0 z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow "
                     id="dropdown"
                   >
-                    {session.data && (
+                    {isLoggedIn && (
                       <div className="py-3 px-4">
                         <span className="block text-sm text-gray-900 ">
-                          {session.data.user.name}
+                          {auth.data.name}
                         </span>
                         <span className="block text-sm font-medium text-gray-500 truncate ">
-                          {session.data.user.email}
+                          {auth.data.email}
                         </span>
                       </div>
                     )}
                     <ul className="py-1">
                       <li>
-                        {session.data ? <SignOutButton /> : <SignInButton />}
+                        {auth?.data?.token ? (
+                          <SignOutButton />
+                        ) : (
+                          <SignInButton />
+                        )}
                       </li>
                     </ul>
                   </div>

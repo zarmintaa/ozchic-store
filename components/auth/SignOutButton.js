@@ -1,9 +1,14 @@
-import { signOut } from "next-auth/react";
+import { deleteAuthFromLocalStorage } from "../../lib/AuthHelper";
+import { useRouter } from "next/router";
 
-const SignOutButton = ({ type }) => {
+const SignOutButton = () => {
+  const router = useRouter();
   return (
     <div
-      onClick={() => signOut()}
+      onClick={() => {
+        deleteAuthFromLocalStorage();
+        router.push("/login");
+      }}
       className="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 "
     >
       Sign out

@@ -1,22 +1,28 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { getSession, signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Loading from "../../components/UI/Loading";
+import {
+  getAuthFromLocalStorage,
+  setAuthToLocalStorage,
+  SignIn,
+} from "../../lib/AuthHelper";
 
 function AuthPage() {
-  const session = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const inputEmailRef = useRef();
   const inputPasswordRef = useRef();
+
   useEffect(() => {
-    getSession().then((session) => {
-      if (session) {
-        router.push("/");
-      } else {
-        setLoading(false);
-      }
-    });
+    setLoading(true);
+    const auth = getAuthFromLocalStorage();
+    const token = auth?.data?.token;
+
+    if (token) {
+      router.push("/");
+    } else {
+      setLoading(false);
+    }
   }, [router]);
 
   if (loading) {
@@ -31,24 +37,18 @@ function AuthPage() {
     const enteredPassword = inputPasswordRef.current.value;
 
     try {
-      const result = await signIn("credentials", {
-        redirect: false,
-        email: enteredEmail,
-        password: enteredPassword,
-      });
-      if (!result.error) {
-        await router.push("/");
-      } else {
-        alert(result.error);
+      const data = await SignIn(enteredEmail, enteredPassword);
+
+      if (!data.error) {
+        setAuthToLocalStorage(data);
       }
-    } catch (error) {
-      alert(error);
+      console.log(data);
+    } catch (e) {
+      alert(e);
     }
 
     setLoading(false);
   };
-
-  console.log(session);
 
   return (
     <Fragment>

@@ -10,8 +10,6 @@ import OrderForm from "../components/cart/OrderForm";
 import ListCartOrder from "../components/cart/ListCartOrder";
 import Order from "../components/cart/Order";
 import Seo from "../components/utils/Seo";
-import { getSession } from "next-auth/react";
-import Loading from "../components/UI/Loading";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -98,14 +96,6 @@ const Cart = () => {
   };
 
   console.log(products);
-
-  useEffect(() => {
-    getSession().then((session) => {
-      if (session) {
-        setLoading(false);
-      }
-    });
-  }, [router]);
 
   if (loading) {
     return (

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useSession } from "next-auth/react";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getAuthFromLocalStorage } from "../../lib/AuthHelper";
 
 async function createUser(userId, name, image, price, quantity, productId) {
   const response = await fetch(`/api/cart`, {
@@ -23,7 +23,6 @@ async function createUser(userId, name, image, price, quantity, productId) {
 }
 
 const AddProductToCart = ({ productId, image, name, price }) => {
-  const session = useSession();
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const setQuantityHandler = (action) => {
@@ -41,33 +40,35 @@ const AddProductToCart = ({ productId, image, name, price }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const userId = session.data.user.image;
 
-    try {
-      // const result = await createUser(
-      //   userId,
-      //   name,
-      //   image,
-      //   price,
-      //   quantity,
-      //   productId
-      // );
-      //
-      // if (result.error) {
-      //   alert(result.error);
-      // }
-      await toast.promise(
-        createUser(userId, name, image, price, quantity, productId),
-        {
-          pending: "Saving...",
-          success: "Berhasil menambah produk ke cart 👌",
-          error: "Gagal menambahkan produk 🤯",
-        },
-        {
-          autoClose: 3000,
-        }
-      );
-    } catch (error) {}
+    const auth = getAuthFromLocalStorage();
+    const token = auth?.data?.token;
+
+    if (!token) {
+      toast("Please login to add product to cart", {
+        type: "error",
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    } else {
+      try {
+        await toast.promise(
+          createUser(userId, name, image, price, quantity, productId),
+          {
+            pending: "Saving...",
+            success: "Berhasil menambah produk ke cart 👌",
+            error: "Gagal menambahkan produk 🤯",
+          },
+          {
+            autoClose: 3000,
+          }
+        );
+      } catch (error) {}
+    }
+
     setLoading(false);
   };
   return (
