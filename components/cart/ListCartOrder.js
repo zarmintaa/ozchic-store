@@ -1,6 +1,6 @@
 import ItemCartOrder from "./ItemCartOrder";
 
-const ListCartOrder = ({ products, updateProduct }) => {
+const ListCartOrder = ({ products, deleteProduct }) => {
   return (
     <div className="grid gap-5 h-fit">
       {products.length > 0 ? (
@@ -8,7 +8,7 @@ const ListCartOrder = ({ products, updateProduct }) => {
           <ItemCartOrder
             key={product._id}
             product={product}
-            updateProduct={updateProduct}
+            deleteProduct={deleteProduct}
           />
         ))
       ) : (

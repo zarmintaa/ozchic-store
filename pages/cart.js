@@ -1,7 +1,4 @@
-import {
-  getProductFromLocalStorage,
-  updateCountProduct,
-} from "../lib/cart-product";
+import { getProductFromLocalStorage } from "../lib/cart-product";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,6 +9,7 @@ import Order from "../components/cart/Order";
 import Seo from "../components/utils/Seo";
 import Loading from "../components/UI/Loading";
 import { getAuthFromLocalStorage } from "../lib/AuthHelper";
+import { DeleteCartUser } from "../lib/CartHandler";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -64,14 +62,18 @@ const Cart = () => {
     setProducts(allCart);
   }, []);
 
-  const updateProduct = (id, action) => {
-    if (action === "ADD") {
-      updateCountProduct(id, "ADD");
-      updateHandler();
-    } else {
-      updateCountProduct(id, "DELETE");
-      updateHandler();
-    }
+  const deleteCart = async (id) => {
+    const response = await DeleteCartUser(id);
+
+    toast.success(`${response.message}`, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+    });
+    const allCart = await getCartUser();
+    setProducts(allCart);
   };
 
   const submitFormHandler = (e) => {
@@ -128,11 +130,6 @@ const Cart = () => {
     }
   }, [updateHandler, setInitialProducts]);
 
-  // useEffect(() => {
-  //   updateHandler();
-  //   setInitialProducts();
-  // }, [updateHandler, setInitialProducts]);
-
   if (loading) {
     return (
       <div className="text-center">
@@ -164,7 +161,7 @@ const Cart = () => {
         title={"Ozchic Store | Cart"}
       />
       <section className="w-full lg:w-9/12 mx-auto grid lg:grid-cols-[2fr,_1fr] gap-5  my-10">
-        <ListCartOrder products={products} updateProduct={updateProduct} />
+        <ListCartOrder products={products} deleteProduct={deleteCart} />
 
         <Order
           orderToggle={orderToggle}

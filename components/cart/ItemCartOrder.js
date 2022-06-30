@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 const base_api = "https://ozchic-store-api.herokuapp.com/";
-const ItemCartOrder = ({ product, updateProduct }) => {
+const ItemCartOrder = ({ product, deleteProduct }) => {
   const router = useRouter();
   return (
     <div
@@ -85,18 +85,11 @@ const ItemCartOrder = ({ product, updateProduct }) => {
           <span>Jumlah : {product.count} pcs</span>
           <div className="px-5 flex gap-2.5">
             <button
-              onClick={() => updateProduct(product.id, "DELETE")}
+              onClick={() => deleteProduct(product._id)}
               type="button"
               className="px-3 py-2 text-normal font-medium text-center text-white bg-red-600 rounded hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 "
             >
-              Kurangi
-            </button>
-            <button
-              onClick={() => updateProduct(product.id, "ADD")}
-              type="button"
-              className="px-3 py-2 text-normal font-medium text-center text-white bg-blue-700 rounded hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 "
-            >
-              Tambah
+              Delete
             </button>
           </div>
         </div>
