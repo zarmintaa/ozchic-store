@@ -12,13 +12,14 @@ function AuthPage() {
   const [loading, setLoading] = useState(true);
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
+
   useEffect(() => {
     setLoading(true);
     const auth = getAuthFromLocalStorage();
     const token = auth?.data?.token;
 
     if (token) {
-      router.push("/");
+      router.replace("/");
     } else {
       setLoading(false);
     }
@@ -41,7 +42,7 @@ function AuthPage() {
         if (!data.error) {
           setAuthToLocalStorage(data);
         }
-        await router.push("/");
+        await router.reload();
       } catch (e) {
         alert(e);
       }

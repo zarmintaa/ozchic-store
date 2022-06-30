@@ -1,7 +1,7 @@
 import Layout from "../components/layout/Layout";
 import "../styles/globals.css";
 import ProgressBar from "@badrap/bar-of-progress";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 
 const progress = new ProgressBar({
   size: 3,
@@ -15,9 +15,10 @@ Router.events.on("routeChangeComplete", progress.finish);
 Router.events.on("routeChangeError", progress.finish);
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
   return (
     <Layout>
-      <Component {...pageProps} />
+      <Component key={router.asPath} {...pageProps} />
     </Layout>
   );
 }

@@ -1,13 +1,15 @@
 import { deleteAuthFromLocalStorage } from "../../lib/AuthHelper";
 import { useRouter } from "next/router";
 
-const SignOutButton = () => {
+const SignOutButton = ({ userToggle }) => {
   const router = useRouter();
+
   return (
     <div
       onClick={() => {
         deleteAuthFromLocalStorage();
-        router.push("/login");
+        userToggle(false);
+        router.replace("/login");
       }}
       className="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 "
     >

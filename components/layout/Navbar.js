@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import ActiveLink from "./ActiveLink";
 
@@ -21,10 +21,9 @@ const Navbar = () => {
   const [sidebarToggle, setSidebarToggle] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [auth, setAuth] = useState(null);
-
   const [userToggle, setUserToggle] = useState(false);
 
-  useEffect(() => {
+  const authFetcher = useCallback(() => {
     const auth = getAuthFromLocalStorage();
     const token = auth?.data?.token;
 
@@ -33,8 +32,13 @@ const Navbar = () => {
       setAuth(auth);
     } else {
       setIsLoggedIn(false);
+      setAuth(null);
     }
   }, []);
+
+  useEffect(() => {
+    authFetcher();
+  }, [authFetcher]);
 
   return (
     <div className="border-b border-solid">
@@ -93,7 +97,10 @@ const Navbar = () => {
                 </div>
               </Link>
               <div
-                onClick={() => setUserToggle(!userToggle)}
+                onClick={() => {
+                  setUserToggle(!userToggle);
+                  authFetcher();
+                }}
                 className="cursor-pointer relative rounded-xl w-10 h-10 flex items-center justify-center border border-b hover:shadow-lg"
               >
                 <button type="button">
@@ -119,10 +126,10 @@ const Navbar = () => {
                     )}
                     <ul className="py-1">
                       <li>
-                        {auth?.data?.token ? (
-                          <SignOutButton />
+                        {isLoggedIn ? (
+                          <SignOutButton userToggle={setUserToggle} />
                         ) : (
-                          <SignInButton />
+                          <SignInButton userToggle={setUserToggle} />
                         )}
                       </li>
                     </ul>
