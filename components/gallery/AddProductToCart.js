@@ -62,8 +62,9 @@ const AddProductToCart = ({ productId, image, name, price }) => {
       });
     } else {
       try {
+        const currentPrice = price * quantity;
         await toast.promise(
-          createCart(name, image, price, quantity, productId, token),
+          createCart(name, image, currentPrice, quantity, productId, token),
           {
             pending: "Saving...",
             success: "Berhasil menambah produk ke cart 👌",
@@ -106,7 +107,7 @@ const AddProductToCart = ({ productId, image, name, price }) => {
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <p>Price : Rp.{price}</p>
+          <p>Price : Rp.{quantity * price}</p>
           <form onSubmit={submitHandler}>
             <button
               type="submit"

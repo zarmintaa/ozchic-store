@@ -5,11 +5,6 @@ import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import {
-  isFavProductExist,
-  setFavProduct,
-  unsetFavProduct,
-} from "../../lib/cart-product";
 import Loading from "../../components/UI/Loading";
 
 import ProductDetail from "../../components/gallery/ProductDetail";
