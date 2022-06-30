@@ -10,6 +10,8 @@ import OrderForm from "../components/cart/OrderForm";
 import ListCartOrder from "../components/cart/ListCartOrder";
 import Order from "../components/cart/Order";
 import Seo from "../components/utils/Seo";
+import Loading from "../components/UI/Loading";
+import { getAuthFromLocalStorage } from "../lib/AuthHelper";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -18,6 +20,22 @@ const Cart = () => {
   const [orderToggle, setOrderToggle] = useState(false);
   const [nameOrder, setNameOrder] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const getCartUser = async () => {
+    const response = await fetch(
+      "https://ozchic-store-api.herokuapp.com/api/v1/cart",
+      {
+        headers: {
+          Authorization: `Bearer ${getAuthFromLocalStorage()?.data?.token}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    return data.data;
+  };
 
   // input form
   const nameInput = useRef();
@@ -25,7 +43,7 @@ const Cart = () => {
   const phoneInput = useRef();
   const router = useRouter();
 
-  const updateHandler = useCallback(() => {
+  const updateHandler = useCallback(async () => {
     const cartProduct = getProductFromLocalStorage();
     let totalItem = 0;
     let totalPrice = 0;
@@ -41,9 +59,10 @@ const Cart = () => {
     setNameOrder(nameOrderTitle);
   }, []);
 
-  useEffect(() => {
-    updateHandler();
-  }, [updateHandler]);
+  const setInitialProducts = useCallback(async () => {
+    const allCart = await getCartUser();
+    setProducts(allCart);
+  }, []);
 
   const updateProduct = (id, action) => {
     if (action === "ADD") {
@@ -95,9 +114,34 @@ const Cart = () => {
     );
   };
 
-  console.log(products);
+  useEffect(() => {
+    const auth = getAuthFromLocalStorage();
+    const token = auth?.data?.token;
+
+    if (token === undefined) {
+      setLoading(false);
+      setIsLoggedIn(true);
+    } else {
+      setLoading(false);
+      updateHandler();
+      setInitialProducts();
+    }
+  }, [updateHandler, setInitialProducts]);
+
+  // useEffect(() => {
+  //   updateHandler();
+  //   setInitialProducts();
+  // }, [updateHandler, setInitialProducts]);
 
   if (loading) {
+    return (
+      <div className="text-center">
+        <Loading />
+      </div>
+    );
+  }
+
+  if (isLoggedIn) {
     return (
       <div className="w-full md:w-7/12 lg:6/12 rounded p-10 grid justify-center mx-auto font-semibold gap-5 shadow my-10">
         <h1 className="text-xl">Anda harus login terlebih dahulu</h1>

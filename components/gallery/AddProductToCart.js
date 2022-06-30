@@ -3,15 +3,20 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getAuthFromLocalStorage } from "../../lib/AuthHelper";
+import { useRouter } from "next/router";
 
-async function createUser(userId, name, image, price, quantity, productId) {
-  const response = await fetch(`/api/cart`, {
-    method: "POST",
-    body: JSON.stringify({ productId, name, image, price, quantity, userId }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+async function createCart(name, image, price, quantity, productId, token) {
+  const response = await fetch(
+    "https://ozchic-store-api.herokuapp.com/api/v1/cart",
+    {
+      method: "POST",
+      body: JSON.stringify({ name, image, price, quantity, productId }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   const data = await response.json();
 
@@ -23,6 +28,7 @@ async function createUser(userId, name, image, price, quantity, productId) {
 }
 
 const AddProductToCart = ({ productId, image, name, price }) => {
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const setQuantityHandler = (action) => {
@@ -38,6 +44,7 @@ const AddProductToCart = ({ productId, image, name, price }) => {
   };
 
   const submitHandler = async (e) => {
+    console.log("Submiting...");
     e.preventDefault();
     setLoading(true);
 
@@ -56,7 +63,7 @@ const AddProductToCart = ({ productId, image, name, price }) => {
     } else {
       try {
         await toast.promise(
-          createUser(userId, name, image, price, quantity, productId),
+          createCart(name, image, price, quantity, productId, token),
           {
             pending: "Saving...",
             success: "Berhasil menambah produk ke cart 👌",
@@ -66,6 +73,8 @@ const AddProductToCart = ({ productId, image, name, price }) => {
             autoClose: 3000,
           }
         );
+        setQuantity(1);
+        await router.push("/cart");
       } catch (error) {}
     }
 

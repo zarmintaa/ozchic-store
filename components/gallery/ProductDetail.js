@@ -1,6 +1,5 @@
 import Image from "next/image";
 import ProductRating from "../product/ProductRating";
-import { useRouter } from "next/router";
 import AddProductToCart from "./AddProductToCart";
 
 const base_api = "https://ozchic-store-api.herokuapp.com/";

@@ -6,7 +6,7 @@ const ListCartOrder = ({ products, updateProduct }) => {
       {products.length > 0 ? (
         products.map((product) => (
           <ItemCartOrder
-            key={product.id}
+            key={product._id}
             product={product}
             updateProduct={updateProduct}
           />

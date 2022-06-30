@@ -17,62 +17,14 @@ import Seo from "../../components/utils/Seo";
 
 const DetailProduct = ({ dataProduct }) => {
   const router = useRouter();
-  const id = router.query.id;
   const [product, setProduct] = useState(dataProduct);
-  const [isFavProduct, setIsFavProduct] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [classFav, setClassFav] = useState("text-gray-500");
-
-  const addFavProductHandler = () => {
-    if (isFavProduct) {
-      unsetFavProduct(+id);
-      toast.error("Menghapus produk dari keranjang!", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setClassFav("text-gray-500");
-      setProduct(dataProduct);
-      setIsFavProduct(false);
-    } else {
-      setFavProduct(product);
-      setProduct(dataProduct);
-      toast.success("Menambah produk ke keranjang.", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setClassFav("text-red-500");
-      setIsFavProduct(true);
-    }
-  };
 
   useEffect(() => {
     if (product) {
       setIsLoading(false);
     }
   }, [product]);
-
-  useEffect(() => {
-    if (product) {
-      const isFav = isFavProductExist(+product.id);
-      if (isFav !== -1) {
-        setClassFav("text-red-500");
-        setIsFavProduct(true);
-      } else {
-        setClassFav("text-gray-500");
-        setIsFavProduct(false);
-      }
-    }
-  }, [product, product.id, isFavProduct]);
 
   return (
     <Fragment>
@@ -86,13 +38,7 @@ const DetailProduct = ({ dataProduct }) => {
           <section className="text-gray-700 body-font overflow-hidden bg-white">
             <div className="container px-5 py-5 mx-auto">
               {isLoading && <Loading />}
-              {!isLoading && (
-                <ProductDetail
-                  product={product}
-                  addFavProductHandler={addFavProductHandler}
-                  classFav={classFav}
-                />
-              )}
+              {!isLoading && <ProductDetail product={product} />}
             </div>
           </section>
         </div>

@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { getSession } from "next-auth/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import Loading from "../../components/UI/Loading";
 
@@ -56,16 +55,6 @@ const Register = () => {
     }
     setLoading(false);
   }
-
-  useEffect(() => {
-    getSession().then((session) => {
-      if (session) {
-        router.replace("/");
-      } else {
-        setLoading(false);
-      }
-    });
-  }, [router]);
 
   if (loading) {
     return <Loading />;

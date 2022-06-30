@@ -10,9 +10,8 @@ import {
 function AuthPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const inputEmailRef = useRef();
-  const inputPasswordRef = useRef();
-
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
   useEffect(() => {
     setLoading(true);
     const auth = getAuthFromLocalStorage();
@@ -33,18 +32,19 @@ function AuthPage() {
     e.preventDefault();
     setLoading(true);
 
-    const enteredEmail = inputEmailRef.current.value;
-    const enteredPassword = inputPasswordRef.current.value;
+    if (inputPassword.length < 7) {
+      alert("Password must be at least 7 characters");
+    } else {
+      try {
+        const data = await SignIn(inputEmail, inputPassword);
 
-    try {
-      const data = await SignIn(enteredEmail, enteredPassword);
-
-      if (!data.error) {
-        setAuthToLocalStorage(data);
+        if (!data.error) {
+          setAuthToLocalStorage(data);
+        }
+        await router.push("/");
+      } catch (e) {
+        alert(e);
       }
-      console.log(data);
-    } catch (e) {
-      alert(e);
     }
 
     setLoading(false);
@@ -69,7 +69,7 @@ function AuthPage() {
             <input
               type="email"
               id="email"
-              ref={inputEmailRef}
+              onChange={(event) => setInputEmail(event.target.value)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5"
               required
             />
@@ -84,7 +84,7 @@ function AuthPage() {
             <input
               type="password"
               id="password"
-              ref={inputPasswordRef}
+              onChange={(event) => setInputPassword(event.target.value)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5"
               required
             />

@@ -110,10 +110,10 @@ const Navbar = () => {
                     {isLoggedIn && (
                       <div className="py-3 px-4">
                         <span className="block text-sm text-gray-900 ">
-                          {auth.data.name}
+                          {auth?.data?.name}
                         </span>
                         <span className="block text-sm font-medium text-gray-500 truncate ">
-                          {auth.data.email}
+                          {auth?.data?.email}
                         </span>
                       </div>
                     )}
