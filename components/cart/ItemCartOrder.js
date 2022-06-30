@@ -82,7 +82,7 @@ const ItemCartOrder = ({ product, deleteProduct }) => {
           Rp.{product.price}
         </span>
         <div className="flex items-center justify-between">
-          <span>Jumlah : {product.count} pcs</span>
+          <span>Jumlah : {product.quantity} pcs</span>
           <div className="px-5 flex gap-2.5">
             <button
               onClick={() => deleteProduct(product._id)}
