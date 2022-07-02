@@ -3,13 +3,16 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import Loading from "../../components/UI/Loading";
 
 async function createUser(name, email, password) {
-  const response = await fetch("/api/auth/signup", {
-    method: "POST",
-    body: JSON.stringify({ name, email, password }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(
+    "https://ozchic-store-api.herokuapp.com/api/v1/auth/signup",
+    {
+      method: "POST",
+      body: JSON.stringify({ name, email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   const data = await response.json();
 
@@ -47,6 +50,9 @@ const Register = () => {
 
       if (!result.error) {
         // set some auth state
+
+        alert("User created successfully!");
+
         await router.push("/login");
       }
     } catch (error) {
