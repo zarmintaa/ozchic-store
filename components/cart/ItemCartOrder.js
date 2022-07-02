@@ -22,7 +22,7 @@ const ItemCartOrder = ({ product, deleteProduct }) => {
       </div>
       <div className="w-full flex flex-col gap-y-1 py-2.5 ">
         <h1
-          onClick={() => router.push(`/gallery/${product.id}`)}
+          onClick={() => router.push(`/gallery/${product.productId}`)}
           className="text-gray-900 text-2xl title-font font-medium cursor-pointer"
         >
           {product.name}

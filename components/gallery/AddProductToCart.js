@@ -5,12 +5,20 @@ import "react-toastify/dist/ReactToastify.css";
 import { getAuthFromLocalStorage } from "../../lib/AuthHelper";
 import { useRouter } from "next/router";
 
-async function createCart(name, image, price, quantity, productId, token) {
+async function createCart(
+  name,
+  image,
+  price,
+  total,
+  quantity,
+  productId,
+  token
+) {
   const response = await fetch(
     "https://ozchic-store-api.herokuapp.com/api/v1/cart",
     {
       method: "POST",
-      body: JSON.stringify({ name, image, price, quantity, productId }),
+      body: JSON.stringify({ name, image, price, quantity, total, productId }),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -62,9 +70,9 @@ const AddProductToCart = ({ productId, image, name, price }) => {
       });
     } else {
       try {
-        const currentPrice = price * quantity;
+        const total = price * quantity;
         await toast.promise(
-          createCart(name, image, currentPrice, quantity, productId, token),
+          createCart(name, image, price, total, quantity, productId, token),
           {
             pending: "Saving...",
             success: "Berhasil menambah produk ke cart 👌",

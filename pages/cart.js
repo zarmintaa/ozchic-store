@@ -1,4 +1,3 @@
-import { getProductFromLocalStorage } from "../lib/cart-product";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,8 +8,22 @@ import Order from "../components/cart/Order";
 import Seo from "../components/utils/Seo";
 import Loading from "../components/UI/Loading";
 import { getAuthFromLocalStorage } from "../lib/AuthHelper";
-import { DeleteCartUser } from "../lib/CartHandler";
+import { AddProductToCart, DeleteCartUser } from "../lib/CartHandler";
 
+const getCartUser = async () => {
+  const response = await fetch(
+    "https://ozchic-store-api.herokuapp.com/api/v1/cart",
+    {
+      headers: {
+        Authorization: `Bearer ${getAuthFromLocalStorage()?.data?.token}`,
+      },
+    }
+  );
+
+  const data = await response.json();
+
+  return data.data;
+};
 const Cart = () => {
   const [products, setProducts] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -20,47 +33,33 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const getCartUser = async () => {
-    const response = await fetch(
-      "https://ozchic-store-api.herokuapp.com/api/v1/cart",
-      {
-        headers: {
-          Authorization: `Bearer ${getAuthFromLocalStorage()?.data?.token}`,
-        },
-      }
-    );
-
-    const data = await response.json();
-
-    return data.data;
-  };
-
   // input form
   const nameInput = useRef();
   const addressInput = useRef();
   const phoneInput = useRef();
   const router = useRouter();
 
-  const updateHandler = useCallback(async () => {
-    const cartProduct = getProductFromLocalStorage();
+  const setInitialProducts = useCallback(async () => {
+    setLoading(true);
+    const allCart = await getCartUser();
     let totalItem = 0;
     let totalPrice = 0;
     let nameOrderTitle = "";
-    cartProduct.map((product) => {
-      totalItem += product.count;
-      totalPrice += product.count * +product.price;
+    allCart.map((product) => {
+      totalItem += +product.quantity;
+      totalPrice += +product.price;
       nameOrderTitle += `[${product.name} : ${product.count} pcs] `;
     });
     setTotalItems(totalItem);
     setTotalPrice(totalPrice);
-    setProducts(cartProduct);
     setNameOrder(nameOrderTitle);
+    setProducts(allCart);
+    setLoading(false);
   }, []);
 
-  const setInitialProducts = useCallback(async () => {
-    const allCart = await getCartUser();
-    setProducts(allCart);
-  }, []);
+  useEffect(() => {
+    setInitialProducts();
+  }, [setInitialProducts]);
 
   const deleteCart = async (id) => {
     const response = await DeleteCartUser(id);
@@ -72,13 +71,11 @@ const Cart = () => {
       closeOnClick: true,
       pauseOnHover: true,
     });
-    const allCart = await getCartUser();
-    setProducts(allCart);
+    setInitialProducts();
   };
 
-  const submitFormHandler = (e) => {
+  const submitFormHandler = async (e) => {
     e.preventDefault();
-
     if (products.length === 0) {
       toast.error("Maaf keranjang kosong!, tidak dapat melakukan pemesanan.", {
         position: "top-right",
@@ -92,28 +89,23 @@ const Cart = () => {
       return;
     }
 
-    const name = nameOrder
-      .replace(/\s/g, "%20")
-      .replace(/\[/g, "%5B")
-      .replace(/\]/g, "%5D");
-    const orderBy = nameInput.current.value;
-    const address = addressInput.current.value;
-    const phone = phoneInput.current.value;
-    const count = totalItems;
+    try {
+      const name = nameInput.current.value;
+      const address = addressInput.current.value;
+      const phone = phoneInput.current.value;
+      const data = {
+        name,
+        address,
+        phone,
+        totalPaid: price,
+        products,
+      };
+      const response = await AddProductToCart(data);
 
-    const startText =
-      "Saya%20ingin%20order%20pesanan%20di%20ozchic%20store%2C%20dengan%20pesanan%20berikut%20%3A%0A%0A";
-    const costomer = `Nama%20:%20${orderBy}`;
-    const orders = `Nama%20Barang%20%3A%20${name}`;
-    const addressText = `Alamat%20%3A%20${address}`;
-    const phoneText = `No.%20HP%20%3A%20${phone}`;
-    const countText = `Jumlah%20%3A%20${count}`;
-    const totalText = `Total%20%3A%20Rp.${price}`;
-    const finalText = `${startText}${costomer}%0A${orders}%0A${addressText}%0A${phoneText}%0A${countText}%0A${totalText}`;
-
-    router.push(
-      `https://api.whatsapp.com/send/?phone=+6289669678577&text=${finalText}`
-    );
+      router.reload();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -125,10 +117,25 @@ const Cart = () => {
       setIsLoggedIn(true);
     } else {
       setLoading(false);
-      updateHandler();
       setInitialProducts();
     }
-  }, [updateHandler, setInitialProducts]);
+  }, [setInitialProducts]);
+
+  const toggleHandler = () => {
+    if (products.length === 0) {
+      toast.error("Maaf keranjang kosong!, tidak dapat melakukan pemesanan.", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      setOrderToggle(!orderToggle);
+    }
+  };
 
   if (loading) {
     return (
@@ -164,7 +171,8 @@ const Cart = () => {
         <ListCartOrder products={products} deleteProduct={deleteCart} />
 
         <Order
-          orderToggle={orderToggle}
+          toggle={orderToggle}
+          orderToggle={toggleHandler}
           price={price}
           setOrderToggle={setOrderToggle}
           totalItems={totalItems}

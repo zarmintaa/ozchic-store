@@ -19,6 +19,7 @@ function AuthPage() {
     const token = auth?.data?.token;
 
     if (token) {
+      setLoading(true);
       router.replace("/");
     } else {
       setLoading(false);

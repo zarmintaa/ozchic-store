@@ -1,4 +1,4 @@
-const Order = ({ totalItems, setOrderToggle, orderToggle, price }) => {
+const Order = ({ totalItems, orderToggle, price }) => {
   return (
     <div className="shadow-lg p-5 h-fit mx-5 lg:mx-0">
       <div className="border-b-2 text-center text-xl font-semibold border-gray-600 pb-2">
@@ -12,7 +12,7 @@ const Order = ({ totalItems, setOrderToggle, orderToggle, price }) => {
       </div>
       <div className="mt-5">
         <button
-          onClick={() => setOrderToggle(!orderToggle)}
+          onClick={() => orderToggle()}
           className="w-full py-2 text-white text-lg bg-teal-600 hover:bg-teal-700 rounded"
         >
           Order

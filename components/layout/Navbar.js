@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
 import ActiveLink from "./ActiveLink";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,8 +15,11 @@ import SignOutButton from "../auth/SignOutButton";
 import SignInButton from "../auth/SignInButton";
 import { ToastContainer } from "react-toastify";
 import { getAuthFromLocalStorage } from "../../lib/AuthHelper";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Navbar = () => {
+  const router = useRouter();
   const [sidebarToggle, setSidebarToggle] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [auth, setAuth] = useState(null);
@@ -125,6 +127,11 @@ const Navbar = () => {
                       </div>
                     )}
                     <ul className="py-1">
+                      <li onClick={() => router.push("/transaction")}>
+                        <div className="block py-2 text-sm pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
+                          Transaction
+                        </div>
+                      </li>
                       <li>
                         {isLoggedIn ? (
                           <SignOutButton userToggle={setUserToggle} />
