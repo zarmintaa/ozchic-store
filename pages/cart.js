@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import OrderForm from "../components/cart/OrderForm";
 import ListCartOrder from "../components/cart/ListCartOrder";
@@ -9,6 +9,7 @@ import Seo from "../components/utils/Seo";
 import Loading from "../components/UI/Loading";
 import { getAuthFromLocalStorage } from "../lib/AuthHelper";
 import { AddProductToCart, DeleteCartUser } from "../lib/CartHandler";
+import AlertContainer from "../components/alert/AlertContainer";
 
 const getCartUser = async () => {
   const response = await fetch(
@@ -64,14 +65,15 @@ const Cart = () => {
   const deleteCart = async (id) => {
     const response = await DeleteCartUser(id);
 
-    toast.success(`${response.message}`, {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
+    setInitialProducts().then(() => {
+      toast.success(`${response.message}`, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     });
-    setInitialProducts();
   };
 
   const submitFormHandler = async (e) => {
@@ -100,9 +102,27 @@ const Cart = () => {
         totalPaid: price,
         products,
       };
+      console.log(data);
       const response = await AddProductToCart(data);
 
-      router.reload();
+      if (response.status === 201) {
+        toast.success(`${response.message}`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+        router.push("transaction");
+      } else {
+        toast.error(`${response.message}`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+      }
     } catch (e) {
       console.log(e);
     }
@@ -187,17 +207,7 @@ const Cart = () => {
           />
         )}
       </section>
-      <ToastContainer
-        position="top-right"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+      <AlertContainer />
     </Fragment>
   );
 };

@@ -2,6 +2,12 @@ import Layout from "../components/layout/Layout";
 import "../styles/globals.css";
 import ProgressBar from "@badrap/bar-of-progress";
 import Router, { useRouter } from "next/router";
+import { useEffect } from "react";
+import {
+  deleteAuthFromLocalStorage,
+  getAuthFromLocalStorage,
+} from "../lib/AuthHelper";
+import AlertContainer from "../components/alert/AlertContainer";
 
 const progress = new ProgressBar({
   size: 3,
@@ -16,9 +22,28 @@ Router.events.on("routeChangeError", progress.finish);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+
+  useEffect(() => {
+    const auth = getAuthFromLocalStorage();
+    const now = new Date();
+
+    if (auth) {
+      if (now > auth.data.expired_at) {
+        deleteAuthFromLocalStorage();
+        router.replace("/login");
+      } else {
+        console.log("Anda Login");
+      }
+    } else {
+      alert("Anda belum melakukan login");
+    }
+
+    console.log({ now, authDate: auth?.data?.expired_at });
+  }, []);
   return (
     <Layout>
       <Component key={router.asPath} {...pageProps} />
+      <AlertContainer />
     </Layout>
   );
 }

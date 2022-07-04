@@ -1,17 +1,15 @@
-import { useRouter } from "next/router";
 import { useState, useEffect, Fragment } from "react";
-
 import React from "react";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Loading from "../../components/UI/Loading";
 
 import ProductDetail from "../../components/gallery/ProductDetail";
 import Seo from "../../components/utils/Seo";
+import { ToastContainer } from "react-toastify";
+import AlertContainer from "../../components/alert/AlertContainer";
 
 const DetailProduct = ({ dataProduct }) => {
-  const router = useRouter();
   const [product, setProduct] = useState(dataProduct);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -38,17 +36,7 @@ const DetailProduct = ({ dataProduct }) => {
           </section>
         </div>
       )}
-      <ToastContainer
-        position="top-right"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+      <AlertContainer />
     </Fragment>
   );
 };

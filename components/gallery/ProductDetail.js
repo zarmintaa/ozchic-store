@@ -59,6 +59,7 @@ const ProductDetail = ({ product }) => {
         <hr className="bg-gray-200 mb-5 mt-6" />
         <div className="flex justify-center items-center flex-wrap gap-0 sm:gap-5">
           <AddProductToCart
+            category={product.category}
             productId={product.id}
             image={product.image}
             price={product.price}

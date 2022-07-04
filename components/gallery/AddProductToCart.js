@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getAuthFromLocalStorage } from "../../lib/AuthHelper";
 import { useRouter } from "next/router";
 
 async function createCart(
   name,
+  category,
   image,
   price,
   total,
@@ -18,7 +19,15 @@ async function createCart(
     "https://ozchic-store-api.herokuapp.com/api/v1/cart",
     {
       method: "POST",
-      body: JSON.stringify({ name, image, price, quantity, total, productId }),
+      body: JSON.stringify({
+        name,
+        category,
+        image,
+        price,
+        quantity,
+        total,
+        productId,
+      }),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -35,7 +44,7 @@ async function createCart(
   return data;
 }
 
-const AddProductToCart = ({ productId, image, name, price }) => {
+const AddProductToCart = ({ productId, category, image, name, price }) => {
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -72,14 +81,23 @@ const AddProductToCart = ({ productId, image, name, price }) => {
       try {
         const total = price * quantity;
         await toast.promise(
-          createCart(name, image, price, total, quantity, productId, token),
+          createCart(
+            name,
+            category,
+            image,
+            price,
+            total,
+            quantity,
+            productId,
+            token
+          ),
           {
             pending: "Saving...",
             success: "Berhasil menambah produk ke cart 👌",
             error: "Gagal menambahkan produk 🤯",
           },
           {
-            autoClose: 3000,
+            autoClose: 1000,
           }
         );
         setQuantity(1);
@@ -126,17 +144,6 @@ const AddProductToCart = ({ productId, image, name, price }) => {
           </form>
         </div>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </section>
   );
 };
