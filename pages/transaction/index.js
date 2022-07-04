@@ -81,7 +81,7 @@ const Transaction = () => {
       </div>
       <div className="relative overflow-x-auto shadow-lg sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 ">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+          <thead className="text-xs text-white uppercase bg-gray-800 ">
             <tr className="text-center">
               <th scope="col" className="px-6 py-3">
                 Pemesan
