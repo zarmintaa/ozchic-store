@@ -117,11 +117,11 @@ const Transaction = () => {
                 <td className="px-6 py-4">Rp. {item?.totalPaid}</td>
                 <td className="px-6 py-4 text-center">
                   {item?.isPaid ? (
-                    <span className="px-2.5 py-1 bg-green-500 text-white rounded-lg">
+                    <span className="px-2.5 py-1 bg-green-700 text-white rounded-lg">
                       lunas
                     </span>
                   ) : (
-                    <span className="px-2.5 py-1 bg-orange-500 text-white rounded-lg">
+                    <span className="px-2.5 py-1 bg-orange-700 text-white rounded-lg">
                       Belum lunas
                     </span>
                   )}
