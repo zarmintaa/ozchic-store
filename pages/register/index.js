@@ -2,9 +2,6 @@ import { useRouter } from "next/router";
 import { Fragment, useRef, useState } from "react";
 import Loading from "../../components/UI/Loading";
 import "react-toastify/dist/ReactToastify.css";
-import AlertContainer from "../../components/alert/AlertContainer";
-import Toast from "../../components/alert/Alert";
-import { toast } from "react-toastify";
 
 async function createUser(name, email, password) {
   const response = await fetch(
@@ -51,18 +48,11 @@ const Register = () => {
       enteredName.trim().length === 0
     ) {
       setLoading(false);
-      toast.error("field  harus diisi.", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      alert("Semua field harus diisi");
+      return;
     } else if (enteredPassword.length < 8) {
-      setLoading(false);
-      return Toast("Password harus lebih dari 8 karakter", "error");
+      alert("Password harus lebih dari 8 karakter");
+      return;
     }
 
     try {
@@ -75,15 +65,7 @@ const Register = () => {
       if (!result.error) {
         // set some auth state
 
-        toast.success("Register berhasil.", {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        alert("Berhasil mendaftar, silahkan login");
 
         await router.push("/login");
       }
@@ -168,8 +150,6 @@ const Register = () => {
           </div>
         </form>
       </section>
-
-      <AlertContainer />
     </Fragment>
   );
 };
