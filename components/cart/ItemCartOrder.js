@@ -8,10 +8,9 @@ const ItemCartOrder = ({ product, deleteProduct }) => {
       key={product.id}
       className="flex gap-x-5 justify-center shadow-md rounded-lg overflow-hidden "
     >
-      <div className="w-32 h-32">
+      <div className="w-40 h-40 lg:w-32 lg:h-32">
         <Image
           src={base_api + product.image}
-          className="object-cover w-full h-full"
           width={500}
           height={750}
           layout={"responsive"}
