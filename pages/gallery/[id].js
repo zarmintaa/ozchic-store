@@ -25,7 +25,7 @@ const DetailProduct = ({ dataProduct }) => {
             url={`https://ozchic-store.vercel.app/gallery/${product.id}`}
             title={`Ozchic Store | ${product.name}`}
           />
-          <section className="text-gray-700 body-font bg-white my-10">
+          <section className="text-gray-700 body-font bg-white my-5 lg:my-10">
             {isLoading && <Loading />}
             {!isLoading && <ProductDetail product={product} />}
           </section>
