@@ -35,7 +35,6 @@ function MyApp({ Component, pageProps }) {
         console.log("Anda Login");
       }
     } else {
-      alert("Anda belum melakukan login");
     }
 
     console.log({ now, authDate: auth?.data?.expired_at });

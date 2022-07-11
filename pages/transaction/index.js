@@ -74,6 +74,14 @@ const Transaction = () => {
     );
   }
 
+  if (transaction.length === 0) {
+    return (
+      <div className="text-center text-3xl font-semibold py-10 text-teal-700">
+        <h1>Anda belum memiliki transaksi</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full lg:w-9/12 md:w-7/12 mx-auto my-10 font-f-poppins min-h-screen">
       <div className="text-center text-3xl font-semibold mb-10 text-teal-700">

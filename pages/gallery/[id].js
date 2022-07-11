@@ -1,12 +1,9 @@
 import { useState, useEffect, Fragment } from "react";
 import React from "react";
 import "react-toastify/dist/ReactToastify.css";
-
 import Loading from "../../components/UI/Loading";
-
 import ProductDetail from "../../components/gallery/ProductDetail";
 import Seo from "../../components/utils/Seo";
-import { ToastContainer } from "react-toastify";
 import AlertContainer from "../../components/alert/AlertContainer";
 
 const DetailProduct = ({ dataProduct }) => {

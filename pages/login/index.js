@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Loading from "../../components/UI/Loading";
 import {
@@ -43,13 +43,12 @@ function AuthPage() {
         if (!data.error) {
           setAuthToLocalStorage(data);
         }
+
         await router.reload();
       } catch (e) {
         alert(e);
       }
     }
-
-    setLoading(false);
   };
 
   return (

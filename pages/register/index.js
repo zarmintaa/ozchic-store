@@ -1,6 +1,11 @@
 import { useRouter } from "next/router";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import Loading from "../../components/UI/Loading";
+import "react-toastify/dist/ReactToastify.css";
+import AlertContainer from "../../components/alert/AlertContainer";
+
+import { toast } from "react-toastify";
+import Toast from "../../components/alert/Alert";
 
 async function createUser(name, email, password) {
   const response = await fetch(
@@ -41,6 +46,18 @@ const Register = () => {
 
     // optional: Add validation
 
+    if (
+      enteredEmail.trim().length === 0 ||
+      enteredPassword.trim().length === 0 ||
+      enteredName.trim().length === 0
+    ) {
+      setLoading(false);
+      return Toast("Semua field harus diisi", "error");
+    } else if (enteredPassword.length < 8) {
+      setLoading(false);
+      return Toast("Password harus lebih dari 8 karakter", "error");
+    }
+
     try {
       const result = await createUser(
         enteredName,
@@ -51,13 +68,12 @@ const Register = () => {
       if (!result.error) {
         // set some auth state
 
-        alert("User created successfully!");
+        Toast("Register Success", "success");
 
         await router.push("/login");
       }
     } catch (error) {
       console.log(error);
-      alert(error);
     }
     setLoading(false);
   }
@@ -137,6 +153,8 @@ const Register = () => {
           </div>
         </form>
       </section>
+
+      <AlertContainer />
     </Fragment>
   );
 };

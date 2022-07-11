@@ -102,7 +102,9 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
         );
         setQuantity(1);
         await router.push("/cart");
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     setLoading(false);

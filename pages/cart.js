@@ -8,29 +8,19 @@ import Order from "../components/cart/Order";
 import Seo from "../components/utils/Seo";
 import Loading from "../components/UI/Loading";
 import { getAuthFromLocalStorage } from "../lib/AuthHelper";
-import { AddProductToCart, DeleteCartUser } from "../lib/CartHandler";
+import {
+  AddProductToCart,
+  DeleteCartUser,
+  deleteProductCartUser,
+  getCartUser,
+} from "../lib/CartHandler";
 import AlertContainer from "../components/alert/AlertContainer";
 
-const getCartUser = async () => {
-  const response = await fetch(
-    "https://ozchic-store-api.herokuapp.com/api/v1/cart",
-    {
-      headers: {
-        Authorization: `Bearer ${getAuthFromLocalStorage()?.data?.token}`,
-      },
-    }
-  );
-
-  const data = await response.json();
-
-  return data.data;
-};
 const Cart = () => {
   const [products, setProducts] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [price, setTotalPrice] = useState(0);
   const [orderToggle, setOrderToggle] = useState(false);
-  const [nameOrder, setNameOrder] = useState("");
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -48,7 +38,7 @@ const Cart = () => {
     let nameOrderTitle = "";
     allCart.map((product) => {
       totalItem += +product.quantity;
-      totalPrice += +product.price;
+      totalPrice += +product.total;
       nameOrderTitle += `[${product.name} : ${product.count} pcs] `;
     });
     setTotalItems(totalItem);
@@ -105,7 +95,7 @@ const Cart = () => {
       console.log(data);
       const response = await AddProductToCart(data);
 
-      if (response.status === 201) {
+      if (response.message === "success") {
         toast.success(`${response.message}`, {
           position: "top-right",
           autoClose: 1000,
@@ -113,7 +103,9 @@ const Cart = () => {
           closeOnClick: true,
           pauseOnHover: true,
         });
-        router.push("transaction");
+        const deleteCart = await deleteProductCartUser();
+        console.log(deleteCart);
+        await router.push("/transaction");
       } else {
         toast.error(`${response.message}`, {
           position: "top-right",
@@ -124,7 +116,13 @@ const Cart = () => {
         });
       }
     } catch (e) {
-      console.log(e);
+      toast.error(`${e.message}`, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     }
   };
 
