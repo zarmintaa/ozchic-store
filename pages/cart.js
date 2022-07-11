@@ -21,6 +21,7 @@ const Cart = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [price, setTotalPrice] = useState(0);
   const [orderToggle, setOrderToggle] = useState(false);
+  const [nameOrder, setNameOrder] = useState("");
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
