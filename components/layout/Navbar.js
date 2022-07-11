@@ -179,7 +179,7 @@ const Navbar = () => {
               </div>
             </div>
             <div className="flex gap-2">
-              <div className="flex justify-end gap-x-4">
+              <div className="flex items-center justify-end gap-x-4">
                 <Link href="/cart" passHref>
                   <div className="relative">
                     <button type="button" aria-label="Cart Button" className="">
