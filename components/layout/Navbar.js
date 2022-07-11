@@ -191,6 +191,51 @@ const Navbar = () => {
                     </button>
                   </div>
                 </Link>
+                <div
+                  onClick={() => {
+                    setUserToggle(!userToggle);
+                    authFetcher();
+                  }}
+                  className="cursor-pointer relative rounded-xl w-10 h-10 flex items-center justify-center border border-b hover:shadow-lg"
+                >
+                  <button type="button">
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className="text-2xl text-gray-500"
+                    />
+                  </button>
+                  {userToggle && (
+                    <div
+                      className="absolute top-10 right-0 z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow "
+                      id="dropdown"
+                    >
+                      {isLoggedIn && (
+                        <div className="py-3 px-4">
+                          <span className="block text-sm text-gray-900 ">
+                            {auth?.data?.name}
+                          </span>
+                          <span className="block text-sm font-medium text-gray-500 truncate ">
+                            {auth?.data?.email}
+                          </span>
+                        </div>
+                      )}
+                      <ul className="py-1">
+                        <li onClick={() => router.push("/transaction")}>
+                          <div className="block py-2 text-sm pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
+                            Transaction
+                          </div>
+                        </li>
+                        <li>
+                          {isLoggedIn ? (
+                            <SignOutButton userToggle={setUserToggle} />
+                          ) : (
+                            <SignInButton userToggle={setUserToggle} />
+                          )}
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

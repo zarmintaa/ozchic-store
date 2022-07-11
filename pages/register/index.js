@@ -80,7 +80,7 @@ const Register = () => {
   }
 
   return (
-    <Fragment>
+    <main className="mx-2.5 md:mx-auto lg:mx-auto">
       {loading && (
         <div className="text-center">
           <Loading />
@@ -150,7 +150,7 @@ const Register = () => {
           </div>
         </form>
       </section>
-    </Fragment>
+    </main>
   );
 };
 

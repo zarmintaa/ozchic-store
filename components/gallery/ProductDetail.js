@@ -6,7 +6,7 @@ const base_api = "https://ozchic-store-api.herokuapp.com/";
 
 const ProductDetail = ({ product }) => {
   return (
-    <div className="lg:w-4/5 mx-auto grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1">
+    <div className="lg:w-4/5 mx-5 lg:mx-auto grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1">
       <Image
         alt={product.name}
         className=" w-full object-cover object-center rounded border border-gray-200"

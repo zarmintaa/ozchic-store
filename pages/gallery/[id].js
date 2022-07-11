@@ -26,10 +26,8 @@ const DetailProduct = ({ dataProduct }) => {
             title={`Ozchic Store | ${product.name}`}
           />
           <section className="text-gray-700 body-font overflow-hidden bg-white">
-            <div className="container px-5 py-5 mx-auto">
-              {isLoading && <Loading />}
-              {!isLoading && <ProductDetail product={product} />}
-            </div>
+            {isLoading && <Loading />}
+            {!isLoading && <ProductDetail product={product} />}
           </section>
         </div>
       )}

@@ -110,7 +110,7 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
     setLoading(false);
   };
   return (
-    <section className="relative font-f-poppins w-full px-5 shadow  p-5 rounded-lg">
+    <section className="font-f-poppins w-full shadow-md  p-5 rounded-lg">
       <div className="grid gap-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5 ">
@@ -121,7 +121,7 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
             <button
               type="button"
               onClick={() => setQuantityHandler("DELETE")}
-              className="px-4  rounded bg-red-500 text-white"
+              className="px-4 rounded bg-red-500 text-white"
             >
               -
             </button>

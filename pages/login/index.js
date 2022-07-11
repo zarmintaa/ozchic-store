@@ -52,13 +52,13 @@ function AuthPage() {
   };
 
   return (
-    <Fragment>
+    <main className="mx-2.5 md:mx-auto lg:mx-auto">
       {loading && (
         <div className="text-center">
           <Loading />
         </div>
       )}
-      <section className="w-full md:w-7/12 lg:w-5/12  mx-auto my-20 shadow-lg p-8 rounded-lg">
+      <section className="w-full md:w-7/12 lg:w-5/12 mx-auto my-20 shadow-lg p-8 rounded-lg">
         <form onSubmit={loginHandler}>
           <div className="mb-6">
             <label
@@ -108,7 +108,7 @@ function AuthPage() {
           </div>
         </form>
       </section>
-    </Fragment>
+    </main>
   );
 }
 
