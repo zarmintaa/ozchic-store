@@ -110,14 +110,14 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
     setLoading(false);
   };
   return (
-    <section className="font-f-poppins w-full shadow-md  p-5 rounded-lg">
+    <section className="w-full font-f-poppins shadow-md  p-2.5 lg:p-5 rounded-lg">
       <div className="grid gap-5">
-        <div className="flex items-center justify-between">
+        <div className="grid grid-cols-2">
           <div className="flex items-center gap-2.5 ">
             <p className=" ">Total :</p>
             <input type="number" value={quantity} />
           </div>
-          <div className="flex items-center gap-2.5 font-bold">
+          <div className="flex items-center gap-2.5 font-bold justify-end">
             <button
               type="button"
               onClick={() => setQuantityHandler("DELETE")}
@@ -134,7 +134,7 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
             </button>
           </div>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="grid grid-cols-2">
           <p>Price : Rp.{quantity * price}</p>
           <form onSubmit={submitHandler}>
             <button

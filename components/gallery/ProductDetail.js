@@ -6,16 +6,17 @@ const base_api = "https://ozchic-store-api.herokuapp.com/";
 
 const ProductDetail = ({ product }) => {
   return (
-    <div className="lg:w-4/5 mx-5 lg:mx-auto grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1">
+    <div className="lg:w-4/5 lg:mx-auto grid mx-5 lg:grid-cols-2 md:grid-cols-1 gap-5 sm:grid-cols-1">
       <Image
         alt={product.name}
-        className=" w-full object-cover object-center rounded border border-gray-200"
         src={base_api + product.image}
         width={400}
         height={600}
+        objectFit={"cover"}
+        objectPosition={"center"}
         layout="intrinsic"
       />
-      <div className=" w-full lg:pl-10 lg:py-6 mt-6 mx-auto lg:mt-0">
+      <div className="">
         <h2 className="text-sm title-font text-gray-500 tracking-widest">
           OZCHIC COLLECTION
         </h2>
@@ -57,15 +58,13 @@ const ProductDetail = ({ product }) => {
         </div>
 
         <hr className="bg-gray-200 mb-5 mt-6" />
-        <div className="flex justify-center items-center flex-wrap gap-0 sm:gap-5">
-          <AddProductToCart
-            category={product.category}
-            productId={product.id}
-            image={product.image}
-            price={product.price}
-            name={product.name}
-          />
-        </div>
+        <AddProductToCart
+          category={product.category}
+          productId={product.id}
+          image={product.image}
+          price={product.price}
+          name={product.name}
+        />
       </div>
     </div>
   );
