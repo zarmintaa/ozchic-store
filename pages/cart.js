@@ -7,7 +7,10 @@ import ListCartOrder from "../components/cart/ListCartOrder";
 import Order from "../components/cart/Order";
 import Seo from "../components/utils/Seo";
 import Loading from "../components/UI/Loading";
-import { getAuthFromLocalStorage } from "../lib/AuthHelper";
+import {
+  deleteAuthFromLocalStorage,
+  getAuthFromLocalStorage,
+} from "../lib/AuthHelper";
 import {
   AddProductToCart,
   DeleteCartUser,
@@ -105,7 +108,6 @@ const Cart = () => {
           pauseOnHover: true,
         });
         const deleteCart = await deleteProductCartUser();
-        console.log(deleteCart);
         await router.push("/transaction");
       } else {
         toast.error(`${response.message}`, {
@@ -124,6 +126,8 @@ const Cart = () => {
         closeOnClick: true,
         pauseOnHover: true,
       });
+      deleteAuthFromLocalStorage();
+      router.reload();
     }
   };
 

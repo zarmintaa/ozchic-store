@@ -2,7 +2,10 @@ import React, { useState } from "react";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getAuthFromLocalStorage } from "../../lib/AuthHelper";
+import {
+  deleteAuthFromLocalStorage,
+  getAuthFromLocalStorage,
+} from "../../lib/AuthHelper";
 import { useRouter } from "next/router";
 
 async function createCart(
@@ -61,7 +64,6 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
   };
 
   const submitHandler = async (e) => {
-    console.log("Submiting...");
     e.preventDefault();
     setLoading(true);
 
@@ -104,6 +106,8 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
         await router.push("/cart");
       } catch (error) {
         console.log(error);
+        deleteAuthFromLocalStorage();
+        router.reload();
       }
     }
 
@@ -115,7 +119,7 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
         <div className="grid grid-cols-2">
           <div className="flex items-center gap-2.5 ">
             <p className=" ">Total :</p>
-            <input type="number" value={quantity} />
+            <input type="number" className="w-10" value={quantity} />
           </div>
           <div className="flex items-center gap-2.5 font-bold justify-end">
             <button
@@ -139,7 +143,7 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
           <form onSubmit={submitHandler}>
             <button
               type="submit"
-              className="flex ml-auto text-white bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded"
+              className="flex ml-auto text-white bg-teal-500 border-0 py-1.5 px-4 focus:outline-none hover:bg-teal-600 rounded"
             >
               {loading ? "loading" : "Add to Cart"}
             </button>

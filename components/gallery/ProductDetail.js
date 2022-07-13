@@ -10,6 +10,7 @@ const ProductDetail = ({ product }) => {
       <Image
         alt={product.name}
         src={base_api + product.image}
+        className="rounded-lg"
         width={400}
         height={600}
         objectFit={"cover"}

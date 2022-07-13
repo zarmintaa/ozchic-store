@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { getAuthFromLocalStorage } from "../../lib/AuthHelper";
 import Loading from "../../components/UI/Loading";
 import { useRouter } from "next/router";
+import Seo from "../../components/utils/Seo";
 
 const getToken = () => {
   const auth = getAuthFromLocalStorage();
@@ -83,72 +84,79 @@ const Transaction = () => {
   }
 
   return (
-    <div className="w-full lg:w-9/12 md:w-7/12 mx-auto my-10 font-f-poppins min-h-screen">
-      <div className="text-center text-3xl font-semibold mb-10 text-teal-700">
-        <h1>Riwayat Transaksi</h1>
-      </div>
-      <div className="relative overflow-x-auto shadow-lg sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500 ">
-          <thead className="text-xs text-white uppercase bg-gray-800 ">
-            <tr className="text-center">
-              <th scope="col" className="px-6 py-3">
-                Pemesan
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Alamat
-              </th>
-              <th scope="col" className="px-6 py-3">
-                No. Hp
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Total Harga
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Pembayaran
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Pembayaran
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {transaction.map((item) => (
-              <tr key={item._id} className="bg-white border-b ">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap"
-                >
-                  {item?.name}
+    <Fragment>
+      <Seo
+        description="Cart page untuk menyimpan produk yang sudah ditandai"
+        url="https://ozchic-store.vercel.app/transaction"
+        title="Transaction"
+      />
+      <div className="w-full lg:w-9/12 md:w-7/12 mx-auto my-10 font-f-poppins min-h-screen">
+        <div className="text-center text-3xl font-semibold mb-10 text-teal-700">
+          <h1>Riwayat Transaksi</h1>
+        </div>
+        <div className="relative overflow-x-auto shadow-lg sm:rounded-lg">
+          <table className="w-full text-sm text-left text-gray-500 ">
+            <thead className="text-xs text-white uppercase bg-gray-800 ">
+              <tr className="text-center">
+                <th scope="col" className="px-6 py-3">
+                  Pemesan
                 </th>
-                <th className="px-6 py-4 font-normal">{item?.address}</th>
-                <td className="px-6 py-4">{item?.phone}</td>
-                <td className="px-6 py-4">Rp. {item?.totalPaid}</td>
-                <td className="px-6 py-4 text-center">
-                  {item?.isPaid ? (
-                    <span className="px-2.5 py-1 bg-green-700 text-white rounded-lg">
-                      lunas
-                    </span>
-                  ) : (
-                    <span className="px-2.5 py-1 bg-orange-700 text-white rounded-lg">
-                      Belum lunas
-                    </span>
-                  )}
-                </td>
-                <td className="px-6 py-4 text-center">
-                  <button
-                    type="button"
-                    onClick={() => router.push(`/transaction/${item._id}`)}
-                    className="font-medium text-blue-600  hover:underline"
-                  >
-                    Detail
-                  </button>
-                </td>
+                <th scope="col" className="px-6 py-3">
+                  Alamat
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  No. Hp
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Total Harga
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Pembayaran
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Pembayaran
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {transaction.map((item) => (
+                <tr key={item._id} className="bg-white border-b ">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap"
+                  >
+                    {item?.name}
+                  </th>
+                  <th className="px-6 py-4 font-normal">{item?.address}</th>
+                  <td className="px-6 py-4">{item?.phone}</td>
+                  <td className="px-6 py-4">Rp. {item?.totalPaid}</td>
+                  <td className="px-6 py-4 text-center">
+                    {item?.isPaid ? (
+                      <span className="px-2.5 py-1 bg-green-700 text-white rounded-lg">
+                        lunas
+                      </span>
+                    ) : (
+                      <span className="px-2.5 py-1 bg-orange-700 text-white rounded-lg">
+                        Belum lunas
+                      </span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <button
+                      type="button"
+                      onClick={() => router.push(`/transaction/${item._id}`)}
+                      className="font-medium text-blue-600  hover:underline"
+                    >
+                      Detail
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 
