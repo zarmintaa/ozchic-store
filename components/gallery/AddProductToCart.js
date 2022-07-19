@@ -71,7 +71,7 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
     const token = auth?.data?.token;
 
     if (!token) {
-      toast("Please login to add product to cart", {
+      toast("Silahkan login terlebih dahulu!", {
         type: "error",
         position: "top-right",
         autoClose: 2000,
