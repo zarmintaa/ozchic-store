@@ -94,8 +94,8 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
             token
           ),
           {
-            pending: "Saving...",
-            success: "Berhasil menambah produk ke cart 👌",
+            pending: "Menyimpan...",
+            success: "Berhasil menambah produk ke keranjang 👌",
             error: "Gagal menambahkan produk 🤯",
           },
           {
