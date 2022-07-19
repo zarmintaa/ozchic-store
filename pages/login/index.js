@@ -46,6 +46,7 @@ function AuthPage() {
 
         await router.reload();
       } catch (e) {
+        setLoading(false);
         alert(e);
       }
     }

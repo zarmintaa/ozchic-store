@@ -96,7 +96,6 @@ const Cart = () => {
         totalPaid: price,
         products,
       };
-      console.log(data);
       const response = await AddProductToCart(data);
 
       if (response.message === "success") {

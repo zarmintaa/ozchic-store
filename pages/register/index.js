@@ -26,41 +26,57 @@ async function createUser(name, email, password) {
 
 const Register = () => {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
-  const emailInputRef = useRef();
-  const nameInputRef = useRef();
-  const passwordInputRef = useRef();
+  const [error, setError] = useState({
+    status: false,
+    type: "",
+    message: "",
+  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const nameChangeHandler = (event) => {
+    setName(event.target.value);
+  };
+
+  const emailChangeHandler = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const passwordChangeHandler = (event) => {
+    setPassword(event.target.value);
+  };
 
   async function submitHandler(event) {
+    setError({
+      status: false,
+      type: "",
+      message: "",
+    });
     event.preventDefault();
     setLoading(true);
 
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
-    const enteredName = nameInputRef.current.value;
-
-    // optional: Add validation
-
     if (
-      enteredEmail.trim().length === 0 ||
-      enteredPassword.trim().length === 0 ||
-      enteredName.trim().length === 0
+      email.trim().length === 0 ||
+      password.trim().length === 0 ||
+      name.trim().length === 0
     ) {
       setLoading(false);
       alert("Semua field harus diisi");
       return;
-    } else if (enteredPassword.length < 8) {
-      alert("Password harus lebih dari 8 karakter");
+    } else if (password.length < 8) {
+      setError({
+        status: true,
+        type: "password",
+        message: "Password harus lebih dari 8 karakter",
+      });
+      setLoading(false);
       return;
     }
 
     try {
-      const result = await createUser(
-        enteredName,
-        enteredEmail,
-        enteredPassword
-      );
+      const result = await createUser(name, email, password);
 
       if (!result.error) {
         // set some auth state
@@ -70,7 +86,14 @@ const Register = () => {
         await router.push("/login");
       }
     } catch (error) {
-      console.log(error);
+      setError({
+        status: true,
+        type: "email",
+        message: error.message,
+      });
+      setName(name);
+      setEmail(email);
+      setPassword(password);
     }
     setLoading(false);
   }
@@ -98,7 +121,7 @@ const Register = () => {
             <input
               type="text"
               id="name"
-              ref={nameInputRef}
+              onChange={nameChangeHandler}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5"
               required
             />
@@ -110,10 +133,18 @@ const Register = () => {
             >
               Your email
             </label>
+            {error.status && error.type === "email" && (
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-red-600"
+              >
+                {error.message}
+              </label>
+            )}
             <input
               type="email"
               id="email"
-              ref={emailInputRef}
+              onChange={emailChangeHandler}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5"
               required
             />
@@ -125,10 +156,18 @@ const Register = () => {
             >
               Your password
             </label>
+            {error.status && error.type === "password" && (
+              <label
+                htmlFor="password"
+                className="block mb-2 text-sm font-medium text-red-600"
+              >
+                {error.message}
+              </label>
+            )}
             <input
               type="password"
               id="password"
-              ref={passwordInputRef}
+              onChange={passwordChangeHandler}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5"
               required
             />
