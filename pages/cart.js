@@ -18,6 +18,7 @@ import {
   getCartUser,
 } from "../lib/CartHandler";
 import AlertContainer from "../components/alert/AlertContainer";
+import { set } from "mongoose";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -36,13 +37,20 @@ const Cart = () => {
 
   const setInitialProducts = useCallback(async () => {
     setLoading(true);
-    const allCart = await getCartUser();
+    let allCart = await getCartUser();
+    if (!allCart) {
+      setProducts([]);
+      setTotalItems(0);
+      setTotalPrice(0);
+      setLoading(false);
+      return;
+    }
     let totalItem = 0;
     let totalPrice = 0;
     let nameOrderTitle = "";
     allCart.map((product) => {
-      totalItem += +product.quantity;
-      totalPrice += +product.total;
+      totalItem += +product?.quantity;
+      totalPrice += +product?.total;
       nameOrderTitle += `[${product.name} : ${product.count} pcs] `;
     });
     setTotalItems(totalItem);
@@ -60,7 +68,7 @@ const Cart = () => {
     const response = await DeleteCartUser(id);
 
     setInitialProducts().then(() => {
-      toast.success(`${response.message}`, {
+      toast.success("Sukses menghapus produk!", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,

@@ -82,28 +82,31 @@ const AddProductToCart = ({ productId, category, image, name, price }) => {
     } else {
       try {
         const total = price * quantity;
-        await toast.promise(
-          createCart(
-            name,
-            category,
-            image,
-            price,
-            total,
-            quantity,
-            productId,
-            token
-          ),
-          {
-            pending: "Menyimpan...",
-            success: "Berhasil menambah produk ke keranjang 👌",
-            error: "Gagal menambahkan produk 🤯",
-          },
-          {
-            autoClose: 1000,
-          }
-        );
-        setQuantity(1);
-        await router.push("/cart");
+        await toast
+          .promise(
+            createCart(
+              name,
+              category,
+              image,
+              price,
+              total,
+              quantity,
+              productId,
+              token
+            ),
+            {
+              pending: "Menyimpan...",
+              success: "Berhasil menambah produk ke keranjang 👌",
+              error: "Gagal menambahkan produk 🤯",
+            },
+            {
+              autoClose: 1000,
+            }
+          )
+          .then(() => {
+            setQuantity(1);
+            router.push("/cart");
+          });
       } catch (error) {
         console.log(error);
         deleteAuthFromLocalStorage();
