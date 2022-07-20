@@ -15,7 +15,7 @@ const Order = ({ totalItems, orderToggle, price }) => {
           onClick={() => orderToggle()}
           className="w-full py-2 text-white text-lg bg-teal-600 hover:bg-teal-700 rounded"
         >
-          Order
+          Pesan
         </button>
       </div>
     </div>
