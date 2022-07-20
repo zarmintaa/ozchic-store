@@ -3,6 +3,7 @@ import { getAuthFromLocalStorage } from "../../lib/AuthHelper";
 import Loading from "../../components/UI/Loading";
 import { useRouter } from "next/router";
 import Seo from "../../components/utils/Seo";
+import AlertContainer from "../../components/alert/AlertContainer";
 
 const getToken = () => {
   const auth = getAuthFromLocalStorage();
@@ -156,6 +157,8 @@ const Transaction = () => {
           </table>
         </div>
       </div>
+
+      <AlertContainer />
     </Fragment>
   );
 };
