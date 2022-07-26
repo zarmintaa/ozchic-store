@@ -19,6 +19,7 @@ import {
 } from "../lib/CartHandler";
 import AlertContainer from "../components/alert/AlertContainer";
 import { set } from "mongoose";
+import addProductToCart from "../components/gallery/AddProductToCart";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -104,16 +105,18 @@ const Cart = () => {
         totalPaid: price,
         products,
       };
+
       const response = await AddProductToCart(data);
 
       if (response.message === "success") {
-        toast.success(`${response.message}`, {
+        alert("Pemesanan berhasil, silahkan cek halaman transaksi anda!");
+        /*toast.success(`${response.message}`, {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
-        });
+        });*/
         const deleteCart = await deleteProductCartUser();
         await router.push("/transaction");
       } else {
@@ -126,15 +129,16 @@ const Cart = () => {
         });
       }
     } catch (e) {
-      toast.error(`${e.message}`, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-      });
-      deleteAuthFromLocalStorage();
-      router.reload();
+      console.log(e);
+      // toast.error(`${e.message}`, {
+      //   position: "top-right",
+      //   autoClose: 1000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      // });
+      // deleteAuthFromLocalStorage();
+      // router.reload();
     }
   };
 
