@@ -151,6 +151,12 @@ const Cart = () => {
     }
   }, [setInitialProducts]);
 
+  useEffect(() => {
+    if (products.length === 0) {
+      setOrderToggle(false);
+    }
+  }, [products.length]);
+
   const toggleHandler = () => {
     if (products.length === 0) {
       toast.error("Maaf keranjang kosong!, tidak dapat melakukan pemesanan.", {
