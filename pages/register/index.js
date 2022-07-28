@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { Fragment, useRef, useState } from "react";
 import Loading from "../../components/UI/Loading";
 import "react-toastify/dist/ReactToastify.css";
+import Seo from "../../components/utils/Seo";
 
 async function createUser(name, email, password) {
   const response = await fetch(
@@ -103,93 +104,100 @@ const Register = () => {
   }
 
   return (
-    <main className="mx-2.5 md:mx-auto lg:mx-auto">
-      {loading && (
-        <div className="text-center">
-          <Loading />
-        </div>
-      )}
-      <section className="w-full md:w-7/12 lg:w-5/12  mx-auto my-20 shadow-lg p-8 rounded-lg">
-        <form onSubmit={submitHandler}>
-          <div className="mb-6">
-            <label
-              htmlFor="name"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              Your name
-            </label>
-            <input
-              type="text"
-              id="name"
-              onChange={nameChangeHandler}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5"
-              required
-            />
+    <Fragment>
+      <Seo
+        description={"Halaman Register"}
+        url={"https://ozchic-store.vercel.app/register"}
+        title={"Register"}
+      />
+      <main className="mx-2.5 md:mx-auto lg:mx-auto">
+        {loading && (
+          <div className="text-center">
+            <Loading />
           </div>
-          <div className="mb-6">
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              Your email
-            </label>
-            {error.status && error.type === "email" && (
+        )}
+        <section className="w-full md:w-7/12 lg:w-5/12  mx-auto my-20 shadow-lg p-8 rounded-lg">
+          <form onSubmit={submitHandler}>
+            <div className="mb-6">
+              <label
+                htmlFor="name"
+                className="block mb-2 text-sm font-medium text-gray-900 "
+              >
+                Your name
+              </label>
+              <input
+                type="text"
+                id="name"
+                onChange={nameChangeHandler}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5"
+                required
+              />
+            </div>
+            <div className="mb-6">
               <label
                 htmlFor="email"
-                className="block mb-2 text-sm font-medium text-red-600"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
-                {error.message}
+                Your email
               </label>
-            )}
-            <input
-              type="email"
-              id="email"
-              onChange={emailChangeHandler}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5"
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Your password
-            </label>
-            {error.status && error.type === "password" && (
+              {error.status && error.type === "email" && (
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-medium text-red-600"
+                >
+                  {error.message}
+                </label>
+              )}
+              <input
+                type="email"
+                id="email"
+                onChange={emailChangeHandler}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5"
+                required
+              />
+            </div>
+            <div className="mb-6">
               <label
                 htmlFor="password"
-                className="block mb-2 text-sm font-medium text-red-600"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
-                {error.message}
+                Your password
               </label>
-            )}
-            <input
-              type="password"
-              id="password"
-              onChange={passwordChangeHandler}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5"
-              required
-            />
-          </div>
+              {error.status && error.type === "password" && (
+                <label
+                  htmlFor="password"
+                  className="block mb-2 text-sm font-medium text-red-600"
+                >
+                  {error.message}
+                </label>
+              )}
+              <input
+                type="password"
+                id="password"
+                onChange={passwordChangeHandler}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5"
+                required
+              />
+            </div>
 
-          <div className="flex items-center gap-2.5">
-            <button
-              type="submit"
-              className="text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-            >
-              Register
-            </button>
-            <button
-              onClick={() => router.push("/login")}
-              className="text-white bg-white text-teal-800 font-medium border border-teal-600 hover:shadow focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-            >
-              Login
-            </button>
-          </div>
-        </form>
-      </section>
-    </main>
+            <div className="flex items-center gap-2.5">
+              <button
+                type="submit"
+                className="text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+              >
+                Register
+              </button>
+              <button
+                onClick={() => router.push("/login")}
+                className="text-white bg-white text-teal-800 font-medium border border-teal-600 hover:shadow focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+              >
+                Login
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </Fragment>
   );
 };
 

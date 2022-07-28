@@ -137,8 +137,8 @@ const Cart = () => {
       //   closeOnClick: true,
       //   pauseOnHover: true,
       // });
-      // deleteAuthFromLocalStorage();
-      // router.reload();
+      deleteAuthFromLocalStorage();
+      router.reload();
     }
   };
 
