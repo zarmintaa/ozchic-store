@@ -84,6 +84,11 @@ const Navbar = () => {
                   <p className="cursor-pointer">Article</p>
                 </ActiveLink>
               </li>
+              <li>
+                <ActiveLink activeClassName="font-semibold" href="/faq">
+                  <p className="cursor-pointer">Faq</p>
+                </ActiveLink>
+              </li>
             </ul>
           </div>
           <div className="flex gap-2">
@@ -300,6 +305,11 @@ const Navbar = () => {
               <li>
                 <ActiveLink activeClassName="font-semibold" href="/inspiration">
                   <p>Inspiration</p>
+                </ActiveLink>
+              </li>
+              <li>
+                <ActiveLink activeClassName="font-semibold" href="/faq">
+                  <p>Faq</p>
                 </ActiveLink>
               </li>
             </ul>
