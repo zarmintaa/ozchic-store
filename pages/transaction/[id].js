@@ -48,7 +48,7 @@ const DetailTransaction = () => {
       <Seo
         description="Detail cart untuk menampilkan detail produk dari keranjang"
         url={`https://ozchic.com/transaction/${router.query.id}`}
-        title="Detail Transaction"
+        title="Ozchic Store | Detail Transaction"
       />
       <div className="w-full lg:w-9/12 mx-auto grid lg:grid-cols-[2fr,_1fr] gap-5  my-10">
         <div>

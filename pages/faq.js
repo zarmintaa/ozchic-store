@@ -7,7 +7,7 @@ const Faq = () => {
       <Seo
         description={"Halaman FAQ"}
         url={"https://ozchic-store.vercel.app/faq"}
-        title={"FAQ"}
+        title={"Ozchic Store | FAQ"}
       />
       <main className="font-f-poppins container mb-10">
         <div className="text-center my-10">

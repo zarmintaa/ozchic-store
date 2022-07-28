@@ -58,7 +58,7 @@ function AuthPage() {
       <Seo
         description={"Halaman Login"}
         url={"https://ozchic-store.vercel.app/login"}
-        title={"Login"}
+        title={"Ozchic Store | Login"}
       />
       <main className="mx-2.5 md:mx-auto lg:mx-auto">
         {loading && (

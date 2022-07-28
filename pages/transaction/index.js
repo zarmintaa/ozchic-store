@@ -89,7 +89,7 @@ const Transaction = () => {
       <Seo
         description="Cart page untuk menyimpan produk yang sudah ditandai"
         url="https://ozchic-store.vercel.app/transaction"
-        title="Transaction"
+        title="Ozchic Store | Transaction"
       />
       <div className="w-full lg:w-9/12 md:w-7/12 mx-auto my-10 font-f-poppins min-h-screen">
         <div className="text-center text-3xl font-semibold mb-10 text-teal-700">

@@ -108,7 +108,7 @@ const Register = () => {
       <Seo
         description={"Halaman Register"}
         url={"https://ozchic-store.vercel.app/register"}
-        title={"Register"}
+        title={"Ozchic Store | Register"}
       />
       <main className="mx-2.5 md:mx-auto lg:mx-auto">
         {loading && (
