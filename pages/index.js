@@ -4,10 +4,26 @@ import NewArrivalsHome from "../components/home/NewArrivalsHome";
 import OzchicPeople from "../components/home/OzchicPeople";
 import ShopByCategory from "../components/home/ShopByCategory";
 import SliderHome from "../components/home/SliderHome";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Seo from "../components/utils/Seo";
 
+const getFeaturedProducts = async () => {
+  const response = await fetch(
+    "https://ozchic-store-api.herokuapp.com/api/v1/product/all/featured"
+  );
+  const data = await response.json();
+  return data.data;
+};
+
 export default function Home({ dataProducts }) {
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
+  useEffect(() => {
+    getFeaturedProducts().then((data) => {
+      setFeaturedProducts(data);
+    });
+  }, []);
+
   return (
     <Fragment>
       <Seo
@@ -17,7 +33,7 @@ export default function Home({ dataProducts }) {
       />
       <SliderHome />
       <LookbookHome />
-      <NewArrivalsHome dataProducts={dataProducts} />
+      <NewArrivalsHome dataProducts={featuredProducts} />
       <ShopByCategory />
       <OzchicPeople />
       <InspirationHome />
@@ -25,22 +41,22 @@ export default function Home({ dataProducts }) {
   );
 }
 
-export async function getStaticProps(context) {
-  const res = await fetch(
-    "https://ozchic-store-api.herokuapp.com/api/v1/product/all/featured"
-  );
-  let data;
-
-  if (res.ok) {
-    console.log("ok");
-    data = await res.json();
-  } else {
-    data = { data: [] };
-  }
-
-  return {
-    props: {
-      dataProducts: data.data,
-    },
-  };
-}
+// export async function getStaticProps(context) {
+//   const res = await fetch(
+//     "https://ozchic-store-api.herokuapp.com/api/v1/product/all/featured"
+//   );
+//   let data;
+//
+//   if (res.ok) {
+//     console.log("ok");
+//     data = await res.json();
+//   } else {
+//     data = { data: [] };
+//   }
+//
+//   return {
+//     props: {
+//       dataProducts: data.data,
+//     },
+//   };
+// }
