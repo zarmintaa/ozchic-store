@@ -3,9 +3,14 @@ import Products from "../../components/gallery/Product";
 import Loading from "../../components/UI/Loading";
 import SidebarMenu from "../../components/gallery/SidebarMenu";
 import Seo from "../../components/utils/Seo";
+import { getAllProducts } from "../../lib/GalleryHelper";
 
 const Gallery = ({ dataProducts }) => {
   const [products, setProducts] = useState(dataProducts);
+  const [productHijab, setProductHijab] = useState([]);
+  const [productPashmina, setProductPashmina] = useState([]);
+  const [productScraf, setProductScraf] = useState([]);
+  const [productTotebag, setProductTotebag] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [toggle, setToggle] = useState(false);
   const [sidebarToggle, setSidebarToggle] = useState(false);
@@ -119,7 +124,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      dataProducts: data.data,
+      dataProducts: await getAllProducts(),
     },
   };
 }
