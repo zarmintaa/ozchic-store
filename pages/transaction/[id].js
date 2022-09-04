@@ -55,6 +55,7 @@ const DetailTransaction = () => {
           <div className="grid gap-5 h-fit">
             {userTransaction.products.map((item) => (
               <div
+                onClick={() => router.push(`/gallery/${item.productId}`)}
                 key={item.productId}
                 className="flex gap-x-5 justify-center shadow-md rounded-lg overflow-hidden "
               >
