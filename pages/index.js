@@ -15,7 +15,7 @@ const getFeaturedProducts = async () => {
   return data.data;
 };
 
-export default function Home({ dataProducts }) {
+export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
 
   useEffect(() => {
@@ -41,22 +41,22 @@ export default function Home({ dataProducts }) {
   );
 }
 
-// export async function getStaticProps(context) {
-//   const res = await fetch(
-//     "https://ozchic-store-api.herokuapp.com/api/v1/product/all/featured"
-//   );
-//   let data;
-//
-//   if (res.ok) {
-//     console.log("ok");
-//     data = await res.json();
-//   } else {
-//     data = { data: [] };
-//   }
-//
-//   return {
-//     props: {
-//       dataProducts: data.data,
-//     },
-//   };
-// }
+/*export async function getStaticProps(context) {
+  const res = await fetch(
+    "https://ozchic-store-api.herokuapp.com/api/v1/product/all/featured"
+  );
+  let data;
+
+  if (res.ok) {
+    console.log("ok");
+    data = await res.json();
+  } else {
+    data = { data: [] };
+  }
+
+  return {
+    props: {
+      dataProducts: data.data,
+    },
+  };
+}*/
