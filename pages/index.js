@@ -6,21 +6,24 @@ import ShopByCategory from "../components/home/ShopByCategory";
 import SliderHome from "../components/home/SliderHome";
 import { Fragment, useEffect, useState } from "react";
 import Seo from "../components/utils/Seo";
+import { getAccessToken, getFeaturedProducts } from "../lib/api";
 
-const getFeaturedProducts = async () => {
+/*const getFeaturedProducts = async () => {
   const response = await fetch(
     "https://ozchic-store-api.herokuapp.com/api/v1/product/all/featured"
   );
   const data = await response.json();
   return data.data;
-};
+};*/
 
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
 
   useEffect(() => {
-    getFeaturedProducts().then((data) => {
-      setFeaturedProducts(data);
+    getFeaturedProducts().then((result) => {
+      if (!result.error) {
+        setFeaturedProducts(result.data);
+      }
     });
   }, []);
 
